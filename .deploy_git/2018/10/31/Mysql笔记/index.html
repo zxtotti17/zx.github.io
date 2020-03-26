@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    Mysql笔记 |  Fly blog
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/pace.min.js"></script>
+
+  
+
+  
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-Mysql笔记" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Mysql笔记
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2018/10/31/Mysql笔记/" class="article-date">
+  <time datetime="2018-10-31T07:04:42.000Z" itemprop="datePublished">2018-10-31</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数据库/">数据库</a>
+  </div>
+
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.5k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">6分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>第1章 SQL基础<br>1.数据分为DDL(数据定义语言)，DML(数据操纵语言)，DCL(数据控制语言)<br>    1.1 DDL语句<br>    <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p</span><br><span class="line">create database test1;</span><br><span class="line">use test1;</span><br><span class="line">show tables;   								<span class="comment">#查看所有表</span></span><br><span class="line">drop database test1;</span><br><span class="line">create table emp(ename varchar(10),hiredate date,sal decimal(2,10),deptno int(2));</span><br><span class="line">desc emp;									<span class="comment">#查看表信息</span></span><br><span class="line">show create table emp \G;					<span class="comment">#\G使得记录能够按照字段竖向排列 以便显示更长内容</span></span><br><span class="line">drop table emp;</span><br><span class="line">alter table emp modify ename varchar(20);	<span class="comment">#修改表字段</span></span><br><span class="line">alter table emp add column age int(3);		<span class="comment">#添加字段</span></span><br><span class="line">alter table emp drop colum age				<span class="comment">#删除字段</span></span><br><span class="line">alter table emp change age age123 int(4);	<span class="comment">#字段改名同时修改类型</span></span><br><span class="line">alter table emp add birth date after ename;	<span class="comment">#修改字段排列顺序</span></span><br><span class="line">alter table emp rename emp1;</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<pre><code>1.2 DML语句 增删改查
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">insert into emp (ename,sal) values(<span class="string">'dony'</span>,1000);</span><br><span class="line">delete from emp <span class="built_in">where</span> ename = <span class="string">'xxx'</span>;</span><br><span class="line">select distinct age from emp1;												<span class="comment">#查询的内容去重</span></span><br><span class="line">select * from emp order by age,deptno desc;									<span class="comment">#根据某个字段排序</span></span><br><span class="line">	select age,count(1) from emp group by age with rollup;						<span class="comment">#分类统计计数及总数</span></span><br><span class="line">	select age,count(1) from emp group by age having count(1)&gt;1;</span><br><span class="line">	select ename,deptname from emp,dept <span class="built_in">where</span> emp.age = dept.age;				<span class="comment">#联查,内链接</span></span><br><span class="line">	select ename,deptname from emp left jion dept on emp.deptno = dept.deptno;	<span class="comment">#表链接很多情况下优于子查询</span></span><br><span class="line">	select * from dept union all select * from emp;								<span class="comment">#集合显示不去重</span></span><br><span class="line">	select * from dept union select * from emp;									<span class="comment">#集合显示去重</span></span><br></pre></td></tr></table></figure>
+
+You can&apos;t specify target table &apos; for update in FROM clause
+Mysql不让对查询到的目标语句进行更新
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DELETE FROM playeritems WHERE id IN(SELECT mid FROM (SELECT min(id) as mid FROM playeritems WHERE uid = <span class="string">'1300200112870961'</span> GROUP BY iname HAVING count(iname) &gt; 1 )as tmp);</span><br></pre></td></tr></table></figure>
+
+1.3 DCL语句
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grant select,insert on sakila.* to <span class="string">'z1@localhost'</span> identified by <span class="string">'123'</span>; 		<span class="comment">#赋予用户权限</span></span><br><span class="line">revoke insert on sakila.* from <span class="string">'z1@localhost'</span>;								<span class="comment">#回收权限</span></span><br></pre></td></tr></table></figure>
+</code></pre><p>2.常用函数<br>    <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">select NOW();									<span class="comment">#xxxx-xx-xx xx:xx:xx</span></span><br><span class="line">select UNIX_TIMESTAMP(now());					<span class="comment">#时间戳</span></span><br><span class="line">select FROM_UNIXTIME(时间戳);					<span class="comment">#xxxx-xx-xx xx:xx:xx</span></span><br><span class="line">IF(value,t,f)									<span class="comment">#如果value为真，返回t,否则返回f</span></span><br><span class="line">select <span class="keyword">if</span>(a &gt; 2000, <span class="string">'high'</span>,<span class="string">'low'</span>) from B</span><br><span class="line">IFNULL(value1,value2)							<span class="comment">#如果value1不为空，返回value1,否则返回value2</span></span><br><span class="line">select ifnull(a , 0) from B</span><br><span class="line">CASE WHEN value THEN res1 ... ELSE def END		<span class="comment">#如果value1真，返回res1,否则返回def</span></span><br><span class="line">select <span class="keyword">case</span> when a&lt;2000 <span class="keyword">then</span> <span class="string">'low'</span> <span class="keyword">else</span> <span class="string">'high'</span> end from B</span><br><span class="line">CASE exp WHEN value THEN res1 ... ELSE def END	<span class="comment">#如果exp = value1真，返回res1,否则返回def</span></span><br><span class="line">select <span class="keyword">case</span> a when 1000 <span class="keyword">then</span> <span class="string">'low'</span> when 2000 <span class="keyword">then</span> <span class="string">'mid'</span> <span class="keyword">else</span> <span class="string">'high'</span> end from B</span><br></pre></td></tr></table></figure></p>
+<p>第2章 存储引擎<br>1.mysql的存储引擎有好多种，这边记录2种<br>    1.1 MyISAM 不支持事务、不支持外键、速度快、表锁<br>    1.2 InnoDB 支持提交、回滚、奔溃恢复能力的事务安全，行锁</p>
+<p>2.myssql事务<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">start transaction;</span><br><span class="line">sql 操作</span><br><span class="line">commit and chain;</span><br></pre></td></tr></table></figure></p>
+<p>3.防止sql注入<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$re</span> = <span class="string">"/(|\'|(\%27)|\;|(\%3b)|\=|(\%3d)|\(|(\%28)|\)|(\%29)|(\/*) |(\%2f%2a)|(\ */)|(\%2a%2f)|\+|(\%2b)|\&lt;|(\%3c)|\&gt;|(\%3e)|\(--))|\[|\%5b|\]|\%5d)/"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(preg_match(<span class="variable">$re</span>, <span class="variable">$aa</span>) &gt;0)&#123;</span><br><span class="line">	<span class="built_in">echo</span>(<span class="string">"参数不对"</span>);</span><br><span class="line">	<span class="built_in">return</span> 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>4.SQL MODE<br>ANSI 使语法行为更符合sql<br>STRICT_TRANS_TABLES 试用于事务，严格模式，报错不警告,不允许非法日期<br>TRADITIONAL 严格模式，适用于事务非事务，不警告直接报错</p>
+<p>5.sql分区<br>RANGE分区：基于一个给定连续区间范围，把数据分配到不同分区<br>LIST分区：类似RANGE<br>HASH分区：基于给定的分区个数，把数据分配到不同分区<br>KEY分区：类似于HASH分区<br>RANGE\LIST\HASH分区键必须INT型</p>
+<p>好处4点<br>存储更多数据、优化查询、快速删除数据、获得更大查询吞吐量<br>Range分区利用取值范围将数据分成分区<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE emp(</span><br><span class="line">id INT NOT NULL,</span><br><span class="line">NAME VARCHAR(20),</span><br><span class="line">age INT</span><br><span class="line">)</span><br><span class="line">PARTITION BY RANGE(ID)(</span><br><span class="line">PARTITION p0 VALUES LESS THAN (6),</span><br><span class="line">PARTITION p1 VALUES LESS THAN (11),</span><br><span class="line">PARTITION pmax VALUES LESS THAN maxvalue</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
+<p>LIST分区是建立离散的之列表告诉数据库特定值在哪个分区<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE expense(</span><br><span class="line">expense_date DATE NOT NULL,</span><br><span class="line">category INT,</span><br><span class="line">amount DECIMAL (10,3)</span><br><span class="line">)</span><br><span class="line">PARTITION BY LIST(category)(</span><br><span class="line">PARTITION p0 VALUES IN(3,5),<span class="comment">#可字符串在5.5版本后</span></span><br><span class="line">PARTITION p1 VALUES IN(1,10),</span><br><span class="line">PARTITION p2 VALUES IN(4,9),</span><br><span class="line">PARTITION p3 VALUES IN(2),</span><br><span class="line">PARTITION p4 VALUES IN(6)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
+<p>Columns分区可分为 RANGE Columns和LIST Columns分区都支持int\date\string,还支持多列<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE expense(</span><br><span class="line">a INT,</span><br><span class="line">b INT</span><br><span class="line">)</span><br><span class="line">PARTITION BY RANGE COLUMS(a,b)(</span><br><span class="line">PARTITION p0 VALUES IN(0,10),<span class="comment">#可字符串在5.5版本后</span></span><br><span class="line">PARTITION p1 VALUES IN(10,10),</span><br><span class="line">PARTITION p2 VALUES IN(10,29)</span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
+<p>HASH分区用来分散热点读，确保数据在预留分区平均分布，有常规分区和线性分区<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#常规 平衡不方便</span></span><br><span class="line">CREATE TABLE emp(</span><br><span class="line">id INT NOT NULL,</span><br><span class="line">NAME VARCHAR(20),</span><br><span class="line">age INT</span><br><span class="line">)</span><br><span class="line">PARTITION BY HASH(ID) PARTITIONS 4;</span><br><span class="line"><span class="comment">#线性 快速不平衡</span></span><br><span class="line">CREATE TABLE emp(</span><br><span class="line">id INT NOT NULL,</span><br><span class="line">NAME VARCHAR(20),</span><br><span class="line">age INT</span><br><span class="line">)</span><br><span class="line">PARTITION BY LINEAR HASH(ID) PARTITIONS 4;</span><br></pre></td></tr></table></figure></p>
+<p>key分区<br>类似HASH分区，数据类型除TEXThe BLOB以外都可以</p>
+<p>RANGE&amp;LIST 分区管理 分区被删除了分区中的数据也被删除了<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">alter table xxx drop partition p2; <span class="comment">#删</span></span><br><span class="line">alter table xxx add partition (partiton p5 values less than (2025)) <span class="comment">#增  不能添加一个包含现有分区值列表中的任意值分区</span></span><br><span class="line">alter table xxx reorganize partition p3 into (</span><br><span class="line">	partition p2 values less than (2005),</span><br><span class="line">	partition p3 values less than (2015)</span><br><span class="line">);			<span class="comment">#拆分</span></span><br><span class="line">alter table xxx reorganize partition p1,p2,p3 into (</span><br><span class="line">	partition p1 values less than (2015)</span><br><span class="line">);		<span class="comment">#合并</span></span><br></pre></td></tr></table></figure></p>
+<p>HASH&amp;KEY 分区管理<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table xxx coalesce partition 2; <span class="comment">#原4删2</span></span><br><span class="line">alter table xxx coalesce partition 8; <span class="comment">#原4加8</span></span><br></pre></td></tr></table></figure></p>
+<p>6.SQL优化</p>
+<ol>
+<li>通过慢查询日志定位效率低的sql,在查询过程中出现的情况可以用show processlist命令查看mysql进程，看锁表及进程状态</li>
+<li>将慢的sql提取做explain分析，type的性能如下<br> ALL,全表扫瞄<br> index,索引全扫描<br> range,索引范围扫描 常见&lt;\&lt;=>>=\between<br> ref,使用非唯一索引扫描或者唯一索引前缀扫描（联合索引）<br> eq_ref,使用唯一索引<br> const/system,单表中最多有一个匹配行<br> NULL，不查表直接得到结果<br> 自上而下效率越来越高</li>
+<li>通过show profile分析sql<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select @@have_profiling;	<span class="comment">#查询是否支持</span></span><br><span class="line">select @@profiling;		<span class="comment">#查询是否开启</span></span><br><span class="line"><span class="built_in">set</span> profiling=1;		<span class="comment">#开启</span></span><br><span class="line">show profiles;			<span class="comment">#显示sql的执行排列</span></span><br><span class="line">show profile <span class="keyword">for</span> query 4;	<span class="comment">#查找具体某一条的状态</span></span><br><span class="line">show profile cpu <span class="keyword">for</span> query 4;	<span class="comment">#查询莫一条在具体（all\cpu\block io\context\switch\page faults）</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+      <!-- reward -->
+      
+      <div id="reward-btn">
+        打赏
+      </div>
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://zxtotti17.github.io/zxtotti17.github.io/2018/10/31/Mysql笔记/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+      <a href="/2018/12/25/c-设计模式/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            c++设计模式
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2018/10/23/pomelo学习笔记/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">pomelo学习笔记</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2017-2020
+        zx
+      </li>
+      <li>
+        
+        Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Fly blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    
+  </div>
+</div>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+<script src="/js/share.js"></script>
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['面朝大海，春暖花开','愿你一生努力，一生被爱','想要的都拥有，得不到的都释怀'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+<script src="/js/tocbot.min.js"></script>
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+<script src="/js/ayer.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+  </div>
+</body>
+
+</html>

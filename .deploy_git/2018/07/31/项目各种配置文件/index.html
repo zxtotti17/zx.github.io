@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+    
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    项目各种配置文件 |  Fly blog
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="/js/pace.min.js"></script>
+
+  
+
+  
+
+</head>
+
+</html>
+
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-项目各种配置文件" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  项目各种配置文件
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2018/07/31/项目各种配置文件/" class="article-date">
+  <time datetime="2018-07-31T08:43:21.000Z" itemprop="datePublished">2018-07-31</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/开发环境安装/">开发环境安装</a>
+  </div>
+
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">918字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">5分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <ol>
+<li>srpg.conf<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    listen 443 ssl;</span><br><span class="line"><span class="comment">#    server_name alctwobt.ssl.91dena.cn;</span></span><br><span class="line">    server_name alccn2-release.ssl.91dena.cn;</span><br><span class="line"><span class="comment">#    ssl on;</span></span><br><span class="line">    ssl_certificate /root/cert/91dena_cn.pem;</span><br><span class="line">    ssl_certificate_key /root/cert/91dena_cn.key;</span><br><span class="line"></span><br><span class="line">    proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">    proxy_set_header Host <span class="variable">$http_host</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">## APP  11</span></span><br><span class="line">    location / &#123;</span><br><span class="line">        <span class="comment"># proxy</span></span><br><span class="line">        proxy_pass http://127.0.0.1:5000/;</span><br><span class="line">        proxy_set_header X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line">        <span class="comment"># connect to backend with keepalives</span></span><br><span class="line"></span><br><span class="line">        proxy_http_version 1.1;</span><br><span class="line">        proxy_set_header Connection <span class="string">""</span>;</span><br><span class="line">        proxy_send_timeout 30s;</span><br><span class="line">        proxy_read_timeout 60s;</span><br><span class="line">        proxy_connect_timeout 30s;</span><br><span class="line">    &#125;</span><br><span class="line">    access_log  /home/<span class="built_in">log</span>/nginxlog/cnrelease/alccn2.ssl.91dena.cn.access.log main;</span><br><span class="line">    error_log   /home/<span class="built_in">log</span>/nginxlog/cnrelease/alccn2.ssl.91dena.cn.error.log;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><a href="/download/nginx.conf">点击下载</a><br><a id="more"></a></p>
+<ol start="2">
+<li>nginx<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">user nginx;</span><br><span class="line"></span><br><span class="line">worker_processes  auto;</span><br><span class="line">worker_rlimit_nofile 150000;</span><br><span class="line"></span><br><span class="line">error_log   /tmp/error.log;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  65535;</span><br><span class="line">    multi_accept on ;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line">    log_format  main  <span class="string">'$remote_addr - $remote_user [$time_local] "$request" $request_time'</span></span><br><span class="line">                      <span class="string">' $status $body_bytes_sent "$http_referer" '</span></span><br><span class="line">                      <span class="string">'"$http_user_agent" "$http_x_forwarded_for"  $upstream_response_time'</span>;</span><br><span class="line">    access_log  /tmp/access.log;</span><br><span class="line">    sendfile        on;</span><br><span class="line">    tcp_nopush      on;</span><br><span class="line">    keepalive_timeout  120;</span><br><span class="line"></span><br><span class="line">    gzip  on;</span><br><span class="line">    </span><br><span class="line">include /etcinx/title/*.conf;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><a href="/download/nginx.conf">点击下载</a></p>
+<ol start="3">
+<li>srpg-app<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment">### BEGIN INIT INFO</span></span><br><span class="line"><span class="comment"># Provides:             webapp</span></span><br><span class="line"><span class="comment"># Required-Start:       $syslog $remote_fs</span></span><br><span class="line"><span class="comment"># Required-Stop:        $syslog $remote_fs</span></span><br><span class="line"><span class="comment"># Should-Start:         $local_fs</span></span><br><span class="line"><span class="comment"># Should-Stop:          $local_fs</span></span><br><span class="line"><span class="comment"># Default-Start:        2 3 4 5</span></span><br><span class="line"><span class="comment"># Default-Stop:         0 1 6</span></span><br><span class="line"><span class="comment"># Short-Description:    Alchemist Webapp</span></span><br><span class="line"><span class="comment"># Description:          Alchemist Webapp</span></span><br><span class="line"><span class="comment">### END INIT INFO</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">### BEGIN CHKCONFIG INFO</span></span><br><span class="line"><span class="comment"># chkconfig: 2345 55 25</span></span><br><span class="line"><span class="comment"># description: Alchemist Webapp</span></span><br><span class="line"><span class="comment">### END CHKCONFIG INFO</span></span><br><span class="line"></span><br><span class="line">USER=<span class="string">"webapp"</span></span><br><span class="line">NAME=<span class="string">"webapp"</span></span><br><span class="line">NODE_ENV=<span class="string">"production"</span></span><br><span class="line">NODE_BIN_DIR=<span class="string">"/usr/localde/bin"</span></span><br><span class="line">NODE_PATH=<span class="string">"/usr/localdebde_modules"</span></span><br><span class="line">APPLICATION_PATH=<span class="string">"ar/webapps/alchemist/currentde/app/app.js"</span></span><br><span class="line">APPLICATION_WORKDIR=<span class="string">"ar/webapps/alchemist/currentde/app/"</span></span><br><span class="line">APPLICATION_OPTION=<span class="string">""</span></span><br><span class="line">LOGFILE=<span class="string">"ar/webapps/alchemist/log/forever/app.log"</span></span><br><span class="line">MIN_UPTIME=<span class="string">"5000"</span></span><br><span class="line">SPIN_SLEEP_TIME=<span class="string">"10000"</span></span><br><span class="line"></span><br><span class="line">PATH=<span class="variable">$NODE_BIN_DIR</span>:<span class="variable">$PATH</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> NODE_PATH=<span class="variable">$NODE_PATH</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">start</span></span>() &#123;</span><br><span class="line">    <span class="built_in">echo</span> `runuser -l <span class="string">"<span class="variable">$USER</span>"</span> -c <span class="string">"forever list"</span>` | grep -q <span class="string">"<span class="variable">$APPLICATION_PATH</span>"</span></span><br><span class="line">    <span class="keyword">if</span> [ <span class="string">"$?"</span> -eq <span class="string">"0"</span> ]; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"<span class="variable">$NAME</span> is already running."</span></span><br><span class="line">        RETVAL=0</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"Starting <span class="variable">$NAME</span>"</span></span><br><span class="line">        runuser -l <span class="string">"<span class="variable">$USER</span>"</span> -c <span class="string">"\</span></span><br><span class="line"><span class="string">        export NODE_ENV=<span class="variable">$NODE_ENV</span> &amp;&amp;</span></span><br><span class="line"><span class="string">        forever \</span></span><br><span class="line"><span class="string">        -a \</span></span><br><span class="line"><span class="string">        -l <span class="variable">$LOGFILE</span> \</span></span><br><span class="line"><span class="string">        --minUptime <span class="variable">$MIN_UPTIME</span> \</span></span><br><span class="line"><span class="string">        --spinSleepTime <span class="variable">$SPIN_SLEEP_TIME</span> \</span></span><br><span class="line"><span class="string">        --workingDir <span class="variable">$APPLICATION_WORKDIR</span> \</span></span><br><span class="line"><span class="string">        start <span class="variable">$APPLICATION_PATH</span> <span class="variable">$APPLICATION_OPTION</span>"</span> 2&gt;&amp;1 &gt; /dev/null &amp;</span><br><span class="line">        RETVAL=$?</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">stop</span></span>() &#123;</span><br><span class="line">    <span class="built_in">echo</span> `runuser -l <span class="string">"<span class="variable">$USER</span>"</span> -c <span class="string">"forever list"</span>` | grep -q <span class="string">"<span class="variable">$APPLICATION_PATH</span>"</span></span><br><span class="line">    <span class="keyword">if</span> [ <span class="string">"$?"</span> -eq <span class="string">"0"</span> ]; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"Shutting down <span class="variable">$NAME</span>"</span></span><br><span class="line">        <span class="comment"># Tell Forever to stop the process.</span></span><br><span class="line">        runuser -l <span class="string">"<span class="variable">$USER</span>"</span> -c <span class="string">"forever stop <span class="variable">$APPLICATION_PATH</span>"</span> 2&gt;&amp;1 &gt; /dev/null</span><br><span class="line">        RETVAL=$?</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"<span class="variable">$NAME</span> is not running."</span></span><br><span class="line">        RETVAL=0</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">restart</span></span>() &#123;</span><br><span class="line">    stop</span><br><span class="line">    start</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">status</span></span>() &#123;</span><br><span class="line">    <span class="built_in">echo</span> `runuser -l <span class="string">"<span class="variable">$USER</span>"</span> -c <span class="string">"forever list"</span>` | grep -q <span class="string">"<span class="variable">$APPLICATION_PATH</span>"</span></span><br><span class="line">    <span class="keyword">if</span> [ <span class="string">"$?"</span> -eq <span class="string">"0"</span> ]; <span class="keyword">then</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"<span class="variable">$NAME</span> is running."</span></span><br><span class="line">        RETVAL=0</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"<span class="variable">$NAME</span> is not running."</span></span><br><span class="line">        RETVAL=3</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$1</span>"</span> <span class="keyword">in</span></span><br><span class="line">    start)</span><br><span class="line">        start</span><br><span class="line">        ;;</span><br><span class="line">    stop)</span><br><span class="line">        stop</span><br><span class="line">        ;;</span><br><span class="line">    status)</span><br><span class="line">        status</span><br><span class="line">        ;;</span><br><span class="line">    restart)</span><br><span class="line">        restart</span><br><span class="line">        ;;</span><br><span class="line">    *)</span><br><span class="line">        <span class="built_in">echo</span> <span class="string">"Usage: &#123;start|stop|status|restart&#125;"</span></span><br><span class="line">        <span class="built_in">exit</span> 1</span><br><span class="line">        ;;</span><br><span class="line"><span class="keyword">esac</span></span><br><span class="line"><span class="built_in">exit</span> <span class="variable">$RETVAL</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><a href="/download/srpg-app">点击下载</a></p>
+<ol start="4">
+<li>td-agent<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">####</span></span><br><span class="line"><span class="comment">## Output descriptions:</span></span><br><span class="line"><span class="comment">##</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Treasure Data (http://www.treasure-data.com/) provides cloud based data</span></span><br><span class="line"><span class="comment"># analytics platform, which easily stores and processes data from td-agent.</span></span><br><span class="line"><span class="comment"># FREE plan is also provided.</span></span><br><span class="line"><span class="comment"># @see http://docs.fluentd.org/articles/http-to-td</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># This section matches events whose tag is td.DATABASE.TABLE</span></span><br><span class="line">&lt;match td.*.*&gt;</span><br><span class="line">  @<span class="built_in">type</span> tdlog</span><br><span class="line">  apikey YOUR_API_KEY</span><br><span class="line"></span><br><span class="line">  auto_create_table</span><br><span class="line">  buffer_type file</span><br><span class="line">  buffer_path /var/<span class="built_in">log</span>/td-agent/buffer/td</span><br><span class="line"></span><br><span class="line">  &lt;secondary&gt;</span><br><span class="line">    @<span class="built_in">type</span> file</span><br><span class="line">    path /var/<span class="built_in">log</span>/td-agent/failed_records</span><br><span class="line">  &lt;/secondary&gt;</span><br><span class="line">&lt;/match&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">## match tag=debug.** and dump to console</span></span><br><span class="line">&lt;match debug.**&gt;</span><br><span class="line">  @<span class="built_in">type</span> stdout</span><br><span class="line">&lt;/match&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">####</span></span><br><span class="line"><span class="comment">## Source descriptions:</span></span><br><span class="line"><span class="comment">##</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## built-in TCP input</span></span><br><span class="line"><span class="comment">## @see http://docs.fluentd.org/articles/in_forward</span></span><br><span class="line">&lt;<span class="built_in">source</span>&gt;</span><br><span class="line">  @<span class="built_in">type</span> forward</span><br><span class="line">&lt;/<span class="built_in">source</span>&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">## built-in UNIX socket input</span></span><br><span class="line"><span class="comment">#&lt;source&gt;</span></span><br><span class="line"><span class="comment">#  @type unix</span></span><br><span class="line"><span class="comment">#&lt;/source&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># HTTP input</span></span><br><span class="line"><span class="comment"># POST http://localhost:8888/&lt;tag&gt;?json=&lt;json&gt;</span></span><br><span class="line"><span class="comment"># POST http://localhost:8888/td.myapp.login?json=&#123;"user"%3A"me"&#125;</span></span><br><span class="line"><span class="comment"># @see http://docs.fluentd.org/articles/in_http</span></span><br><span class="line">&lt;<span class="built_in">source</span>&gt;</span><br><span class="line">  @<span class="built_in">type</span> http</span><br><span class="line">  port 8888</span><br><span class="line">&lt;/<span class="built_in">source</span>&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">## live debugging agent</span></span><br><span class="line">&lt;<span class="built_in">source</span>&gt;</span><br><span class="line">  @<span class="built_in">type</span> debug_agent</span><br><span class="line">  <span class="built_in">bind</span> 127.0.0.1</span><br><span class="line">  port 24230</span><br><span class="line">&lt;/<span class="built_in">source</span>&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment">####</span></span><br><span class="line"><span class="comment">## Examples:</span></span><br><span class="line"><span class="comment">##</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## File input</span></span><br><span class="line"><span class="comment">## read apache logs continuously and tags td.apache.access</span></span><br><span class="line"><span class="comment">#&lt;source&gt;</span></span><br><span class="line"><span class="comment">#  @type tail</span></span><br><span class="line"><span class="comment">#  format apache</span></span><br><span class="line"><span class="comment">#  path /var/log/httpd-access.log</span></span><br><span class="line"><span class="comment">#  tag td.apache.access</span></span><br><span class="line"><span class="comment">#&lt;/source&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## File output</span></span><br><span class="line"><span class="comment">## match tag=local.** and write to file</span></span><br><span class="line"><span class="comment">#&lt;match local.**&gt;</span></span><br><span class="line"><span class="comment">#  @type file</span></span><br><span class="line"><span class="comment">#  path /var/log/td-agent/access</span></span><br><span class="line"><span class="comment">#&lt;/match&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Forwarding</span></span><br><span class="line"><span class="comment">## match tag=system.** and forward to another td-agent server</span></span><br><span class="line"><span class="comment">#&lt;match system.**&gt;</span></span><br><span class="line"><span class="comment">#  @type forward</span></span><br><span class="line"><span class="comment">#  host 192.168.0.11</span></span><br><span class="line"><span class="comment">#  # secondary host is optional</span></span><br><span class="line"><span class="comment">#  &lt;secondary&gt;</span></span><br><span class="line"><span class="comment">#    host 192.168.0.12</span></span><br><span class="line"><span class="comment">#  &lt;/secondary&gt;</span></span><br><span class="line"><span class="comment">#&lt;/match&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## Multiple output</span></span><br><span class="line"><span class="comment">## match tag=td.*.* and output to Treasure Data AND file</span></span><br><span class="line"><span class="comment">#&lt;match td.*.*&gt;</span></span><br><span class="line"><span class="comment">#  @type copy</span></span><br><span class="line"><span class="comment">#  &lt;store&gt;</span></span><br><span class="line"><span class="comment">#    @type tdlog</span></span><br><span class="line"><span class="comment">#    apikey API_KEY</span></span><br><span class="line"><span class="comment">#  auto_create_table</span></span><br><span class="line"><span class="comment">#    buffer_type file</span></span><br><span class="line"><span class="comment">#    buffer_path /var/log/td-agent/buffer/td</span></span><br><span class="line"><span class="comment">#  &lt;/store&gt;</span></span><br><span class="line"><span class="comment">#  &lt;store&gt;</span></span><br><span class="line"><span class="comment">#    @type file</span></span><br><span class="line"><span class="comment">#    path /var/log/td-agent/td-%Y-%m-%d/%H.log</span></span><br><span class="line"><span class="comment">#  &lt;/store&gt;</span></span><br><span class="line"><span class="comment">#&lt;/match&gt;</span></span><br><span class="line"><span class="comment">#&lt;match *.**&gt;</span></span><br><span class="line"><span class="comment">#  type file</span></span><br><span class="line"><span class="comment">#   path /var/log/td-agent/error.log</span></span><br><span class="line"><span class="comment">#&lt;/match&gt;</span></span><br><span class="line"></span><br><span class="line">&lt;match alchemist.**&gt;</span><br><span class="line">  <span class="built_in">type</span> forward</span><br><span class="line">  heartbeat_type tcp</span><br><span class="line">  buffer_type file</span><br><span class="line">  buffer_path /var/tmp/td-agent/forward.*.buffer</span><br><span class="line">  buffer_chunk_limit 8m     <span class="comment"># チャンクサイズ</span></span><br><span class="line">  buffer_queue_limit 256    <span class="comment"># 1queueに保存できるchunk数の上限</span></span><br><span class="line">  flush_interval 1s        <span class="comment"># 10秒に1回送信</span></span><br><span class="line">  flush_at_shutdown <span class="literal">true</span>    <span class="comment"># シャットダウン時にチャンクを処理するか?(ファイルバッファのみ有効)</span></span><br><span class="line">  retry_wait 5s            <span class="comment"># 再送実施までの待ち時間</span></span><br><span class="line">  retry_limit 2             <span class="comment"># 再送実施回数</span></span><br><span class="line">  require_ack_response <span class="literal">true</span></span><br><span class="line">  expire_dns_cache 0</span><br><span class="line">  dns_round_robin <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">  &lt;server&gt;</span><br><span class="line">    host mongodb.alccn.91dena.cn</span><br><span class="line">    port 24224</span><br><span class="line">  &lt;/server&gt;</span><br><span class="line"></span><br><span class="line">  <span class="comment"># ログ送信失敗時のファイル</span></span><br><span class="line">  <span class="comment">#  # &lt;secondary&gt;</span></span><br><span class="line">  <span class="comment">#      #  type file</span></span><br><span class="line">  <span class="comment">#         #   path /var/log/td-agent/failed/forward-failed</span></span><br><span class="line">  <span class="comment">#           #&lt;/secondary&gt;</span></span><br><span class="line"> &lt;/match&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p><a href="/download/td-agent.conf">点击下载</a></p>
+
+      
+      <!-- reward -->
+      
+      <div id="reward-btn">
+        打赏
+      </div>
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://zxtotti17.github.io/zxtotti17.github.io/2018/07/31/项目各种配置文件/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/td-agent/">td-agent</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+      <a href="/2018/08/01/redis笔记/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            redis笔记
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2018/07/24/ALC-Sentry/" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">ALC_Sentry</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '',
+        app_key: '',
+        path: window.location.pathname,
+        notify: 'false',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点评论吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2017-2020
+        zx
+      </li>
+      <li>
+        
+        Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+      <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+    <aside class="sidebar">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Fly blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    
+  </div>
+</div>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+<script src="/js/share.js"></script>
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['面朝大海，春暖花开','愿你一生努力，一生被爱','想要的都拥有，得不到的都释怀'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+<script src="/js/tocbot.min.js"></script>
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: false
+  }
+</script>
+
+<script src="/js/ayer.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+
+    
+  </div>
+</body>
+
+</html>

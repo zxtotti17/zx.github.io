@@ -1,0 +1,8 @@
+---
+ayout: "categories"
+title: "Categories"
+header-img: "/img/header_img/archive.jpg"
+comments: false
+date: 2018-09-20 20:49:56
+description: "Hey, this is categories"
+---
