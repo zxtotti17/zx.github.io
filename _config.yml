@@ -3,7 +3,7 @@
 language: zh
 title: Fly blog
 author: zx
-url: https://zxtotti17.github.io/zxtotti17.github.io/
+url: https://zx.github.io/
 
 # 博客导航
 menu:
@@ -102,7 +102,7 @@ life_script: /js/Life.js
 
 deploy:
   type: git
-  repository: git@github.com:zxtotti17/zxtotti17.github.io.git
+  repository: git@github.com:zxtotti17/zx.github.io.git
   branch: master
 
 theme: Life
