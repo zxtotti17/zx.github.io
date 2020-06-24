@@ -204,4 +204,7 @@ alter table xxx coalesce partition 8; #原4加8
 	show profile cpu for query 4;	#查询莫一条在具体（all\cpu\block io\context\switch\page faults）
 ```
 
+mac或者linux当mysql连接不上的时候加
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+
 

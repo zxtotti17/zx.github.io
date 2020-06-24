@@ -37,7 +37,7 @@ tags:
 		console.log(message);
 	});
 	//发布
-	emitter.on('event1',"I Love you");
+	emitter.emit('event1',"I Love you");
 	```
 	1）继承events模块
 	``` bash
@@ -556,3 +556,4 @@ tags:
 	moment.unix(moment().startOf('month')/1000).utcOffset(config.TIME_ZONE_DIFF).format("YYYY-MM-DD HH:mm:ss");
 	```
 
+js中数组及数据类型对象都是按址传递
