@@ -3,7 +3,7 @@
 language: zh
 title: Fly blog
 author: zx
-url: https://zx.github.io/
+url: https://zxtotti17.github.io/
 
 avatar:
   enable: true
@@ -85,7 +85,7 @@ theme_layout:
 # -------------------------------------------------------
 
 social:
-  github: https://zx.github.io/
+  github: https://zxtotti17.github.io/
   #weibo: http://weibo.com/52hezhiyu
 
   # Email link, reference to https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Creating_hyperlinks#E-mail_links
@@ -155,7 +155,7 @@ powered_by:
 
 deploy:
   type: git
-  repository: git@github.com:zxtotti17/zx.github.io.git
+  repository: git@github.com:zxtotti17/zxtotti17.github.io.git
   branch: master
 
 theme: lite
