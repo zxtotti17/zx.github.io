@@ -1,1 +1,1 @@
-{"meta":{"version":1,"warehouse":"2.2.0"},"models":{"Asset":[],"Cache":[],"Category":[],"Data":[],"Page":[],"Post":[],"PostAsset":[],"PostCategory":[],"PostTag":[],"Tag":[]}}
+{"meta":{"version":1,"warehouse":"2.2.0"},"models":{"Asset":[],"Cache":[{"_id":"public/content.json","hash":"27bf7eaca32e9805bca9c5af215fdf68c6bcbc8a","modified":1592990449390}],"Category":[],"Data":[],"Page":[],"Post":[],"PostAsset":[],"PostCategory":[],"PostTag":[],"Tag":[]}}

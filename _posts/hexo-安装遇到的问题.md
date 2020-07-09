@@ -14,9 +14,12 @@ hexo g -d
 hexo clean
 hexo s
 hexo目录下执行这样一句话npm install hexo-asset-image --save，这是下载安装一个可以上传本地图片的插件,再运行hexo n "xxxx"来生成md博文
+hexo new post xxxxx 生成带图片的博文
 
 npm install hexo-generator-json-content --save
-npm install https://github.com/7ym0n/hexo-asset-image --save  #3版本以上图片判断加了时间date所以得用新的来判断
+npm install hexo-asset-image --save
+post_asset_folder: true  config.yml
+
 
 index_generator:
   per_page: 9 ##首页默认9篇文章标题 如果值为0不分页
