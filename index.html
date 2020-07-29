@@ -64,59 +64,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-mongodb笔记" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/07/28/mongodb%E7%AC%94%E8%AE%B0/" class="article-date">
-  <time datetime="2020-07-28T04:54:03.000Z" itemprop="datePublished">2020-07-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/28/mongodb%E7%AC%94%E8%AE%B0/">mongodb笔记</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>下载地址：<a target="_blank" rel="noopener" href="https://www.mongodb.com/download-center#community">https://www.mongodb.com/download-center#community</a></p>
-<h1 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h1><p>sudo tar -zxvf mongodb-osx-ssl-x86_64-4.0.9.tgz<br>export PATH=/usr/local/mongodb/bin:$PATH</p>
-<p>1、首先我们创建一个数据库存储目录 /data/db：</p>
-<p>sudo mkdir -p /data/db<br>sudo mongod –dbpath=/data/db<br>#建议换一个路径，然后先启动mongod进程会卡着日志的地方，再开一个窗口启动mongo就可以了</p>
-<p>sudo mount -uw / #增加写权限</p>
-<h1 id="使用用户名密码连接"><a href="#使用用户名密码连接" class="headerlink" title="使用用户名密码连接"></a>使用用户名密码连接</h1><p>mongodb://admin:123456@localhost/</p>
-<h1 id="一般的命令"><a href="#一般的命令" class="headerlink" title="一般的命令"></a>一般的命令</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">show dbs</span><br><span class="line">use runoob <span class="comment">#如果数据库不存在，则创建数据库，否则切换到指定数据库。</span></span><br></pre></td></tr></table></figure>
-
-<p>db.dropDatabase() #删除当前db指向的数据库</p>
-<h1 id="MongoDB-中使用-createCollection-方法来创建集合"><a href="#MongoDB-中使用-createCollection-方法来创建集合" class="headerlink" title="MongoDB 中使用 createCollection() 方法来创建集合"></a>MongoDB 中使用 createCollection() 方法来创建集合</h1><p>db.createCollection(name, options) #在 MongoDB 中，你不需要创建集合。当你插入一些文档时，MongoDB 会自动创建集合</p>
-<h1 id="增删改查"><a href="#增删改查" class="headerlink" title="增删改查"></a>增删改查</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">db.test.drop() <span class="comment">#删除集合</span></span><br><span class="line">db.col.insert()</span><br><span class="line">db.col.update(&#123;<span class="string">&#x27;title&#x27;</span>:<span class="string">&#x27;MongoDB 教程&#x27;</span>&#125;,&#123;<span class="variable">$set</span>:&#123;<span class="string">&#x27;title&#x27;</span>:<span class="string">&#x27;MongoDB&#x27;</span>&#125;&#125;,&#123;multi:<span class="literal">true</span>&#125;)<span class="comment">#更新多条有同一标签的数据</span></span><br><span class="line">db.col.save()<span class="comment">#入的文档来替换已有文档，_id 主键存在就更新，不存在就插入</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 条件</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$lt</span> &lt; </span><br><span class="line"><span class="variable">$lte</span> 小于等于</span><br><span class="line"><span class="variable">$gt</span> &gt;</span><br><span class="line"><span class="variable">$gte</span> 大于</span><br><span class="line"><span class="variable">$ne</span> 不等</span><br><span class="line"></span><br><span class="line">db.col.find(&#123;key1:value1, key2:value2&#125;).pretty()   <span class="comment">#and</span></span><br><span class="line">db.col.find(       <span class="comment">#or</span></span><br><span class="line">   &#123;</span><br><span class="line">      <span class="variable">$or</span>: [</span><br><span class="line">         &#123;key1: value1&#125;, &#123;key2:value2&#125;</span><br><span class="line">      ]</span><br><span class="line">   &#125;</span><br><span class="line">).pretty()</span><br><span class="line">db.col.find(&#123;<span class="string">&quot;title&quot;</span> : &#123;<span class="variable">$type</span> : <span class="string">&#x27;string&#x27;</span>&#125;&#125;)</span><br><span class="line">db.col.find().<span class="built_in">limit</span>(1) <span class="comment">#限制1条数</span></span><br><span class="line">db.col.find().skip(1)  <span class="comment">#跳过1条</span></span><br><span class="line">db.col.find().sort(1)  <span class="comment">#1升序  -1降序  3者同时的时候优先顺序是  sort  skip  limit</span></span><br><span class="line"></span><br><span class="line">db.values.createIndex(&#123;open: 1, close: 1&#125;, &#123;background: <span class="literal">true</span>&#125;)  <span class="comment">#建立索引1正序  -1反序 创建工作在后台执行</span></span><br><span class="line">1、查看集合索引</span><br><span class="line">db.col.getIndexes()</span><br><span class="line">2、查看集合索引大小</span><br><span class="line">db.col.totalIndexSize()</span><br><span class="line">3、删除集合所有索引</span><br><span class="line">db.col.dropIndexes()</span><br><span class="line">4、删除集合指定索引</span><br><span class="line">db.col.dropIndex(<span class="string">&quot;索引名称&quot;</span>)</span><br><span class="line"></span><br><span class="line">db.mycol.aggregate([&#123;<span class="variable">$group</span> : &#123;_id : <span class="string">&quot;<span class="variable">$by_user</span>&quot;</span>, num_tutorial : &#123;<span class="variable">$sum</span> : 1&#125;&#125;&#125;])</span><br><span class="line">= select by_user, count(*) from mycol group by by_user</span><br><span class="line"></span><br><span class="line"><span class="variable">$sum</span>    计算总和</span><br><span class="line"><span class="variable">$avg</span>    计算平均值</span><br><span class="line"><span class="variable">$min</span>    获取集合中所有文档对应值得最小值</span><br></pre></td></tr></table></figure>
-        
-          <p class="article-more-link">
-            <a href="/2020/07/28/mongodb%E7%AC%94%E8%AE%B0/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/28/mongodb%E7%AC%94%E8%AE%B0/" data-id="ckd7biyo9000imf8n18xnban3" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mongodb/" rel="tag">mongodb</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-node中间件" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/07/14/node%E4%B8%AD%E9%97%B4%E4%BB%B6/" class="article-date">
@@ -554,6 +501,53 @@
 
 
   
+    <article id="post-游戏中大型比赛玩法设计思路" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/30/%E6%B8%B8%E6%88%8F%E4%B8%AD%E5%A4%A7%E5%9E%8B%E6%AF%94%E8%B5%9B%E7%8E%A9%E6%B3%95%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF/" class="article-date">
+  <time datetime="2019-07-30T08:08:45.000Z" itemprop="datePublished">2019-07-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/30/%E6%B8%B8%E6%88%8F%E4%B8%AD%E5%A4%A7%E5%9E%8B%E6%AF%94%E8%B5%9B%E7%8E%A9%E6%B3%95%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF/">游戏中大型自动比赛玩法设计</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>争霸赛赛程范例<br>3月1日 0：00~3月3日 12:00    报名    40级以上手动报名<br>3月3日 13：00    淘汰赛    “13:00取数据，提前1小时向玩家发送邮件提醒<br>13:10开始出战报，每隔5分钟出1场战报<br>天榜负5局进入地榜，地榜负5局则被淘汰”<br>3月4日 14:00    16强赛（32进16）    “每小时1局，每局取1次数据，5局3胜制<br>天地榜同时进行<br>比赛开始前1小时向玩家发送邮件提醒取数据制度”<br>3月5日 14:00    16进8<br>3月6日 14:00    8进4<br>3月7日 14:00    半决赛<br>3月8日 14:00    决赛<br>3月8日 决赛全部结束    统一发放奖励    </p>
+<p>比赛的时间控制由单独时间进程来控制时间的推进，相当于php中的crontab,表结构上一个玩家比赛进程表player_race,<br>一个各阶段玩家成员信息表player_race_member，后期系统匹配各阶段玩家匹配信息表player_race_opponent，<br>一个各阶段玩家战报信息表player_race_report，一个各阶段玩家结果表player_race_result，<br>玩家表可以分为  玩家比赛信息表  player_st_jjc_race 玩家匹配信息表 player_st_jjc_race_opponent 玩家日志表 player_st_jjc_race_score_log</p>
+<p>第一步 报名<br>很简单直接报名请求记录玩家数据就行,报名时间结束时触发事件对所有玩家进行匹配</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> try_get_player_server_war(PlayerId) of</span><br><span class="line">    null -&gt;</span><br><span class="line">        Tran = fun() -&gt;</span><br><span class="line">            game_db:write(<span class="comment">#player_server_war &#123;</span></span><br><span class="line">                player_id  = PlayerId, </span><br><span class="line">                apply_time = lib_misc:get_local_timestamp()</span><br><span class="line">            &#125;)</span><br><span class="line">            % mod_deploy:get(PlayerId, ?RACE_SERVER_WAR)</span><br><span class="line">        end, </span><br><span class="line">        game_db:<span class="keyword">do</span>(Tran);</span><br><span class="line">    _ -&gt;</span><br><span class="line">        <span class="built_in">exit</span>(already_apply)</span><br><span class="line">end.</span><br><span class="line"></span><br><span class="line">% 本服报名结束手机玩家数据</span><br><span class="line">apply_over() -&gt;</span><br><span class="line">    List = get_all_player_server_war(),</span><br><span class="line">    Tran = fun() -&gt;</span><br><span class="line">        lists:foreach(</span><br><span class="line">            fun(Rec) -&gt;</span><br><span class="line">                game_db:write(Rec <span class="comment">#player_server_war &#123;</span></span><br><span class="line">                    race_step = ?RS_TIAN_BANG_TAOTAI</span><br><span class="line">                &#125;)</span><br><span class="line">            end, </span><br><span class="line">            List</span><br><span class="line">        )</span><br><span class="line">    end,</span><br><span class="line">    game_db:<span class="keyword">do</span>(Tran),</span><br><span class="line">    ?INFO(<span class="string">&quot;apply_over&quot;</span>,[]),</span><br><span class="line">    ZoneList = lists:foldl(</span><br><span class="line">        fun(PlayerServerWar, R) -&gt;</span><br><span class="line">            [PlayerServerWar <span class="comment">#player_server_war.player_id | R]</span></span><br><span class="line">        end,</span><br><span class="line">        [],</span><br><span class="line">        get_all_player_server_war()</span><br><span class="line">    ),</span><br><span class="line"></span><br><span class="line">    mod_race:init_race_member(</span><br><span class="line">       ?RACE_SERVER_WAR,</span><br><span class="line">       0,</span><br><span class="line">       ?RS_TIAN_BANG_TAOTAI,</span><br><span class="line">       0,</span><br><span class="line">       ZoneList,</span><br><span class="line">       normal</span><br><span class="line">    ).</span><br></pre></td></tr></table></figure>
+<p>注意的是用一个单独的进程来管理活动步骤开启结束<br><img src="Er15646489002180.png" alt="Er15646489002180"></p>
+        
+          <p class="article-more-link">
+            <a href="/2019/07/30/%E6%B8%B8%E6%88%8F%E4%B8%AD%E5%A4%A7%E5%9E%8B%E6%AF%94%E8%B5%9B%E7%8E%A9%E6%B3%95%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/07/30/%E6%B8%B8%E6%88%8F%E4%B8%AD%E5%A4%A7%E5%9E%8B%E6%AF%94%E8%B5%9B%E7%8E%A9%E6%B3%95%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF/" data-id="ckd7biypx0025mf8ndxxsf3n5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B8%B8%E6%88%8F/" rel="tag">游戏</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
 
 
   <nav id="page-nav">
@@ -579,7 +573,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Capistrano-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7/" rel="tag">Capistrano 自动部署工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Erlang/" rel="tag">Erlang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby-on-Rails/" rel="tag">Ruby on Rails</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sentry/" rel="tag">Sentry</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">c++ 设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongodb/" rel="tag">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-js/" rel="tag">node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/td-agent/" rel="tag">td-agent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%B8%E6%88%8F/" rel="tag">游戏</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Capistrano-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7/" rel="tag">Capistrano 自动部署工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Erlang/" rel="tag">Erlang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby-on-Rails/" rel="tag">Ruby on Rails</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sentry/" rel="tag">Sentry</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">c++ 设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-js/" rel="tag">node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/td-agent/" rel="tag">td-agent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%B8%E6%88%8F/" rel="tag">游戏</a></li></ul>
     </div>
   </div>
 
@@ -589,7 +583,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Capistrano-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">Capistrano 自动部署工具</a> <a href="/tags/Erlang/" style="font-size: 13.33px;">Erlang</a> <a href="/tags/Ruby-on-Rails/" style="font-size: 10px;">Ruby on Rails</a> <a href="/tags/Sentry/" style="font-size: 10px;">Sentry</a> <a href="/tags/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">c++ 设计模式</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/node-js/" style="font-size: 16.67px;">node.js</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/td-agent/" style="font-size: 10px;">td-agent</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 20px;">游戏</a>
+      <a href="/tags/Capistrano-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">Capistrano 自动部署工具</a> <a href="/tags/Erlang/" style="font-size: 13.33px;">Erlang</a> <a href="/tags/Ruby-on-Rails/" style="font-size: 10px;">Ruby on Rails</a> <a href="/tags/Sentry/" style="font-size: 10px;">Sentry</a> <a href="/tags/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">c++ 设计模式</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/node-js/" style="font-size: 16.67px;">node.js</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/td-agent/" style="font-size: 10px;">td-agent</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 20px;">游戏</a>
     </div>
   </div>
 
@@ -611,10 +605,6 @@
       <ul>
         
           <li>
-            <a href="/2020/07/28/mongodb%E7%AC%94%E8%AE%B0/">mongodb笔记</a>
-          </li>
-        
-          <li>
             <a href="/2020/07/14/node%E4%B8%AD%E9%97%B4%E4%BB%B6/">node中间件</a>
           </li>
         
@@ -628,6 +618,10 @@
         
           <li>
             <a href="/2020/06/29/%E6%B8%B8%E6%88%8F%E6%88%90%E5%B0%B1%E4%BB%BB%E5%8A%A1%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">游戏成就任务系统设计</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/16/%E6%B8%B8%E6%88%8F%E4%B8%AD%E5%86%99%E5%87%BA%E7%9A%84bug%E5%8F%8A%E6%80%9D%E8%80%83/">游戏中写出的bug及思考</a>
           </li>
         
       </ul>
