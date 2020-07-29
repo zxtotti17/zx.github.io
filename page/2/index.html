@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-游戏中大型比赛玩法设计思路" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/30/%E6%B8%B8%E6%88%8F%E4%B8%AD%E5%A4%A7%E5%9E%8B%E6%AF%94%E8%B5%9B%E7%8E%A9%E6%B3%95%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF/" class="article-date">
+  <time datetime="2019-07-30T08:08:45.000Z" itemprop="datePublished">2019-07-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/30/%E6%B8%B8%E6%88%8F%E4%B8%AD%E5%A4%A7%E5%9E%8B%E6%AF%94%E8%B5%9B%E7%8E%A9%E6%B3%95%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF/">游戏中大型自动比赛玩法设计</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>争霸赛赛程范例<br>3月1日 0：00~3月3日 12:00    报名    40级以上手动报名<br>3月3日 13：00    淘汰赛    “13:00取数据，提前1小时向玩家发送邮件提醒<br>13:10开始出战报，每隔5分钟出1场战报<br>天榜负5局进入地榜，地榜负5局则被淘汰”<br>3月4日 14:00    16强赛（32进16）    “每小时1局，每局取1次数据，5局3胜制<br>天地榜同时进行<br>比赛开始前1小时向玩家发送邮件提醒取数据制度”<br>3月5日 14:00    16进8<br>3月6日 14:00    8进4<br>3月7日 14:00    半决赛<br>3月8日 14:00    决赛<br>3月8日 决赛全部结束    统一发放奖励    </p>
+<p>比赛的时间控制由单独时间进程来控制时间的推进，相当于php中的crontab,表结构上一个玩家比赛进程表player_race,<br>一个各阶段玩家成员信息表player_race_member，后期系统匹配各阶段玩家匹配信息表player_race_opponent，<br>一个各阶段玩家战报信息表player_race_report，一个各阶段玩家结果表player_race_result，<br>玩家表可以分为  玩家比赛信息表  player_st_jjc_race 玩家匹配信息表 player_st_jjc_race_opponent 玩家日志表 player_st_jjc_race_score_log</p>
+<p>第一步 报名<br>很简单直接报名请求记录玩家数据就行,报名时间结束时触发事件对所有玩家进行匹配</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> try_get_player_server_war(PlayerId) of</span><br><span class="line">    null -&gt;</span><br><span class="line">        Tran = fun() -&gt;</span><br><span class="line">            game_db:write(<span class="comment">#player_server_war &#123;</span></span><br><span class="line">                player_id  = PlayerId, </span><br><span class="line">                apply_time = lib_misc:get_local_timestamp()</span><br><span class="line">            &#125;)</span><br><span class="line">            % mod_deploy:get(PlayerId, ?RACE_SERVER_WAR)</span><br><span class="line">        end, </span><br><span class="line">        game_db:<span class="keyword">do</span>(Tran);</span><br><span class="line">    _ -&gt;</span><br><span class="line">        <span class="built_in">exit</span>(already_apply)</span><br><span class="line">end.</span><br><span class="line"></span><br><span class="line">% 本服报名结束手机玩家数据</span><br><span class="line">apply_over() -&gt;</span><br><span class="line">    List = get_all_player_server_war(),</span><br><span class="line">    Tran = fun() -&gt;</span><br><span class="line">        lists:foreach(</span><br><span class="line">            fun(Rec) -&gt;</span><br><span class="line">                game_db:write(Rec <span class="comment">#player_server_war &#123;</span></span><br><span class="line">                    race_step = ?RS_TIAN_BANG_TAOTAI</span><br><span class="line">                &#125;)</span><br><span class="line">            end, </span><br><span class="line">            List</span><br><span class="line">        )</span><br><span class="line">    end,</span><br><span class="line">    game_db:<span class="keyword">do</span>(Tran),</span><br><span class="line">    ?INFO(<span class="string">&quot;apply_over&quot;</span>,[]),</span><br><span class="line">    ZoneList = lists:foldl(</span><br><span class="line">        fun(PlayerServerWar, R) -&gt;</span><br><span class="line">            [PlayerServerWar <span class="comment">#player_server_war.player_id | R]</span></span><br><span class="line">        end,</span><br><span class="line">        [],</span><br><span class="line">        get_all_player_server_war()</span><br><span class="line">    ),</span><br><span class="line"></span><br><span class="line">    mod_race:init_race_member(</span><br><span class="line">       ?RACE_SERVER_WAR,</span><br><span class="line">       0,</span><br><span class="line">       ?RS_TIAN_BANG_TAOTAI,</span><br><span class="line">       0,</span><br><span class="line">       ZoneList,</span><br><span class="line">       normal</span><br><span class="line">    ).</span><br></pre></td></tr></table></figure>
+<p>注意的是用一个单独的进程来管理活动步骤开启结束<br><img src="Er15646489002180.png" alt="Er15646489002180"></p>
+        
+          <p class="article-more-link">
+            <a href="/2019/07/30/%E6%B8%B8%E6%88%8F%E4%B8%AD%E5%A4%A7%E5%9E%8B%E6%AF%94%E8%B5%9B%E7%8E%A9%E6%B3%95%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/07/30/%E6%B8%B8%E6%88%8F%E4%B8%AD%E5%A4%A7%E5%9E%8B%E6%AF%94%E8%B5%9B%E7%8E%A9%E6%B3%95%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF/" data-id="ckd7biypx0025mf8ndxxsf3n5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B8%B8%E6%88%8F/" rel="tag">游戏</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Erlang List模块函数使用大全" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/07/Erlang%20List%E6%A8%A1%E5%9D%97%E5%87%BD%E6%95%B0%E4%BD%BF%E7%94%A8%E5%A4%A7%E5%85%A8/" class="article-date">
+  <time datetime="2019-05-07T11:49:16.000Z" itemprop="datePublished">2019-05-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/07/Erlang%20List%E6%A8%A1%E5%9D%97%E5%87%BD%E6%95%B0%E4%BD%BF%E7%94%A8%E5%A4%A7%E5%85%A8/">Erlang List模块函数使用大全</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Erlang List模块函数使用大全</p>
+<p>一，带函数Pred<br>1, all(Pred, List) -&gt; boolean()<br>如果List中的每个元素作为Pred函数的参数执行，结果都返回true，那么all函数返回true，<br>否则返回false</p>
+<p>例子：</p>
+<p>lists:all(fun(E) -&gt; true end,[1,2,3,4]).</p>
+<p>结果</p>
+<p>true</p>
+<p>2, any(Pred, List) -&gt; boolean()<br>如果List中至少有一个元素作为Pred函数的参数执行，结果返回true，那么any函数返回true，<br>否则返回false</p>
+<p>例子</p>
+<p>lists:any(fun(E) -&gt; is_integer(E) end,[q,2,a,4]).</p>
+<p>结果</p>
+<p>true</p>
+<p>3，dropwhile(Pred, List1) -&gt; List2<br>将List1列表中的元素作为参数执行Pred函数，如果返回true，将其丢弃，最后返回剩余元素<br>组成的列表</p>
+<p>例子</p>
+<p>lists:dropwhile(fun(E) -&gt; is_atom(E) end,[a,1,2,a,b]).</p>
+<p>结果</p>
+<p>[1,2,a,b]</p>
+<p>4，filter(Pred, List1) -&gt; List2<br>返回一个列表，这个列表是由List1中执行Pred函数返回true的元素组成。</p>
+<p>lists:filter(fun(E) -&gt; is_integer(E) end,[q,2,a,4]).</p>
+<p>结果：</p>
+<p>[2,4]</p>
+        
+          <p class="article-more-link">
+            <a href="/2019/05/07/Erlang%20List%E6%A8%A1%E5%9D%97%E5%87%BD%E6%95%B0%E4%BD%BF%E7%94%A8%E5%A4%A7%E5%85%A8/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/05/07/Erlang%20List%E6%A8%A1%E5%9D%97%E5%87%BD%E6%95%B0%E4%BD%BF%E7%94%A8%E5%A4%A7%E5%85%A8/" data-id="ckd7biypv0023mf8n0vzygyod" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Erlang/" rel="tag">Erlang</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Erlang-OTP学习" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/09/Erlang-OTP%E5%AD%A6%E4%B9%A0/" class="article-date">
+  <time datetime="2019-04-09T08:50:32.000Z" itemprop="datePublished">2019-04-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/09/Erlang-OTP%E5%AD%A6%E4%B9%A0/">Erlang OTP学习</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1.-behaviour(gen_server)<br>它表示让编译器检查，当前module是否实现了gen_server指定的所有回调接口</p>
+<p>2.gen_server:start_link(ServerName, Module, Args, Options) -&gt; Result<br>这个方法用来启动一个server，其中：<br>参数ServerName指定了服务名<br>参数Module指定了该server的callback模块<br>参数Args将作为服务初始化的启动参数（服务初始化时会调用：Module:init([Args])）<br>参数Options指定了一些特性参数，通常可以直接使用[] </p>
+<p>如果服务启动成功，返回{ok, Pid} </p>
+<p>3.Module:init([Args])<br>这个方法会在服务初始化时被回调，参数Args就是gen_server:start_link中倒数第二个参数，若初始化成功，该方法放回{ok, State},其中State将作为启动服务的State </p>
+<p>4.gen_server:call(ServerRef, Request)<br>这个方法供callback模块向ServerRef代表的服务发送Request请求（callback模块通常会在之上再封装一层接口供客户端调用，譬如这里的add，find方法），注意该方法是一个同步调用，它会一直等待服务器返回一个响应消息（除非等待超时，默认5s） </p>
+<p>5.Module:handle_call(Request, From, State) -&gt; Result<br>这是一个回调方法，用来处理gen_server:call(ServerRef, Request)发出的请求，其中：<br>Request，表示客户端请求<br>From，表示请求来自哪个客户端<br>State，表示当前服务器状态 </p>
+<p>Result为handle_call 请求处理结果，它有以下几种类型<br>{reply,Reply,NewState}<br>{reply,Reply,NewState,Timeout}<br>{reply,Reply,NewState,hibernate}<br>{noreply,NewState}<br>{noreply,NewState,Timeout}<br>{noreply,NewState,hibernate}<br>{stop,Reason,Reply,NewState} | {stop,Reason,NewState} </p>
+<p>这几种返回值有什么区别呢？<br>如果返回的是以reply开头，那么Reply将会作为响应返回给客户端<br>如果返回的是以noreply开头，那么服务器将不会返回任何消息给客户端（这会导致客户端阻塞，因为客户端调用的gen_server:call方法是一个同步调用，当它发出请求后，会一直等待服务器发送响应消息，除非等待超时） </p>
+<p>6.gen_server:cast(ServerRef, Request)<br>这个方法同gen_server:call(ServerRef, Request)，但它最大的区别就是该调用是异步的，它不需要等待服务器返回任何处理结果 </p>
+<p>7.Module:handle_cast(Request, State) -&gt; Result<br>这个方法用来处理gen_server:cast(ServerRef, Request)发出的请求，由于不会返回结果给客户端，所以参数列表中也没有From </p>
+<p>8.检查进程是否加载</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">erlang:whereis(?MODULE).</span><br></pre></td></tr></table></figure>
+
+<p>9.查看进程的信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">erlang:process_info(pid(0,PID,0)).</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/04/09/Erlang-OTP%E5%AD%A6%E4%B9%A0/" data-id="ckd7biyne0003mf8nbqy4715h" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Erlang/" rel="tag">Erlang</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-充值流程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/06/%E5%85%85%E5%80%BC%E6%B5%81%E7%A8%8B/" class="article-date">
+  <time datetime="2019-03-06T12:01:38.000Z" itemprop="datePublished">2019-03-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/06/%E5%85%85%E5%80%BC%E6%B5%81%E7%A8%8B/">充值流程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>接触到的充值流程是这样的<br>1.客户端发起请求-&gt;lcm后台，lcm后台确认充值成功，会将充值的金额变成平台货币保存在平台端，并通知到客户端充值成功，<br>收到充值成功的客户端对游戏服务端发起请求，游戏服务端收到请求后，请求lcm平台调用spend方法，平台确认信息相符就扣币<br>并告诉游戏服务端消费成功，游戏服务端在将平台货币转换为对应的游戏币，同时告诉客户端充值成功</p>
+<p>2.平台充值成功会产生回调直接通知游戏服务端，服务端接收请求，后请求平台spend，成功后发币记录，客户端请求服务端查到有记录就告知客户端成功不做spend</p>
+<p>掉单：<br>如果掉单<br>1.平台回调请求会保证执行spend方法，达到补单的效果<br>2.客户端能读到平台币，直接通过平台剩余币与游戏服务端直接交易</p>
+<p>注意：<br>任何时间判断以天为单位要特别小心，如果出现两版批次连续很容易出问题</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/03/06/%E5%85%85%E5%80%BC%E6%B5%81%E7%A8%8B/" data-id="ckd7biyot000zmf8n6o987uyf" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/01/01/hello-world/" class="article-date">
+  <time datetime="2019-01-01T08:50:32.000Z" itemprop="datePublished">2019-01-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/01/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/01/01/hello-world/" data-id="ckd7biynr0009mf8n70w0b8eq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-c-设计模式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/25/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="article-date">
+  <time datetime="2018-12-25T14:38:51.000Z" itemprop="datePublished">2018-12-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/25/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">c++设计模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>c++设计模式：</p>
+<p>简单工厂模式</p>
+<p>工厂模式有一种非常形象的描述，建立对象的类就如一个工厂，而需要被建立的对象就是一个个产品；在工厂中加工产品，使用产品的人，不用在乎产品是如何生产出来的。从软件开发的角度来说，这样就有效的降低了模块之间的耦合。</p>
+<p>使用情景：<br>  在不确定会有多少个处理操作时应该考虑使用简单工厂模式，如针对同样的接收到的数据，处理的逻辑可能会不同，可能以后还会增加新的操作。<br>案例：<br>如果实现计算器的功能时，对于同样的输入数据，可能执行加、减、乘、除，甚至其他的功能。因此可以抽象出一个操作的抽象类或是接口，提供一个统一的处理方法(此处为process)，然后每种操作创建出一个子类出来。而判断具体使用哪个具体的实现类是在工厂类中进行判断的(将存放操作的变量传递给工厂的生产方法)。工厂类始终返回的是这个抽象类，这样如果对原有功能进行更改或是新添加新的功能，也不会对原来的其他类做修改，只编译修改的那个类或是新的类就可以了。<br>这样就做到了把耦合降到最低，同时也便于维护。 </p>
+<p>简单工厂：针对同样的数据，不同的操作用同一个接口</p>
+<p>工厂方法：针对同样的数据，不同的操作用不同的接口</p>
+<p>抽象工厂：针对不同的数据，不同的操作用不同的接口</p>
+<p>策略模式：依赖c++的多态，抽象类的指针可以访问所有子类对象，（纯虚函数），可以用一个指针访问所有策略的实现类</p>
+<p>单例模式：单例模式确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例单例模式(不能让一个程序打开两次  如：不能同时打开2个迅雷  迅雷用的单例模式)</p>
+<p>访问者模式:适用于数据结构相对未定的系统，它把数据结构和作用于结构上的操作之间的耦合解脱开，使得操作集合可以相对自由的演化。访问者模式使得增加新的操作变的很容易，就是增加一个新的访问者类。访问者模式将有关的行为集中到一个访问者对象中(做任何更改不需要修改基类，不依赖虚函数)</p>
+<p>观察者模式：定义了一种一对多的依赖关系，让多个观察者对象同时监听某一个主题对象。这个主题对象在状态上发生变化时，会通知所有观察者对象，使他们能够自动更新自己。(QT的信号机制，Windows的消息机制都应用了观察者模式，还有订阅邮件，邮件到了就会给你发邮件)</p>
+<p>建造者模式：使得产品内部表象可以独立地变化，客户不必知道产品内部组成的细节。可以强制实行一种分步骤进行的建造过程。用一个接口完成不同的操作，需要对客户的需求进行把握。(如：登陆QQ，自动选择所在地的服务器)</p>
+<p>解释器模式：给定一个语言后，解释器模式可以定义出其文法的一种表示，并同时提供一个解释器。客户端可以使用这个解释器来解释这个语言中的句子。(如：360读取lua脚本，这个细节的实现就是解释器模式)</p>
+<p>命令模式：把发出命令的责任和执行命令的责任分割开，委派给不同的对象允许请求的一方和发送的一方独立开来，使得请求的一方不必知道接收请求的一方的接口，更不必知道请求是怎么被接收，以及操作是否执行，何时被执行以及是怎么被执行的。(命令模式在客户端与服务器之间用的最多 (C/S架构))</p>
+<p>模板模式：不同的子类可以以不同的方式实现这些抽象方法，</p>
+<p>从而对剩余的逻辑有不同的实现。先制定一个顶级逻辑框架，</p>
+<p>而将逻辑的细节留给具体的子类去实现。(适用于本地化，做一个软件，在日本是日文，美国是英语…)</p>
+<p>桥接模式：将抽象化与实现化脱离，使得二者可以独立的变化，</p>
+<p>也就是指在一个软件系统的抽象化和实现化之间使用组合聚合关系而不是继承关系，从而使两者可以独立的变化。(相当于配电脑去装机，把各个模块组合到一起)</p>
+<p>适配器模式：把一个类的接口变换成客户端所期待的另一种接口，从而使原本因接口原因不匹配而无法一起工作的两个类能够一起工作。</p>
+<p>外观模式：外部与一个子系统的通信必须通过一个统一的外观对象进行。每一个子系统只有一个外观类，而且此外观类只有一个实例，也就是说它是一个单例模式。但整个系统可以有多个外观类。(多个子系统方法都需要一个外观类统一管理，用统一的接口方便消费者使用)</p>
+<p>享元模式：享元模式大幅度的降低内存中对象的数量，使用享元模式主要是为了优化内存，相同功能可以并行使用。</p>
+<p>原型模式：允许动态的增加或减少产品类，产品类不需要非得有任何事先确定的等级结构，原始模型模式适用于任何的等级结构。缺点是每一个类都必须配备一个克隆方法。</p>
+<p>责任链模式：在责任链模式中，很多对象由每一个对象对其下家的引用而接起来形成一条链。请求在这个链上传递，直到链上的某一个对象决定处理此请求。处理者有两个选择：承担责任或者把责任推给下家。一个请求可以最终不被任何接收端对象所接受。(例如：晚上去上英语课，为了好开溜坐到了最后一排，哇，前面坐了好几个漂亮的MM哎，找张纸条，写上“Hi, 可以做我的女朋友吗？如果不愿意请向前传”，纸条就一个接一个的传上去了，糟糕，传到第一排的MM把纸条传给老师了)</p>
+<p>中介者模式：中介者模式包装了一系列对象相互作用的方式，</p>
+<p>使得这些对象不必相互明显作用。从而使他们可以松散偶合。</p>
+<p>当某些对象之间的作用发生改变时，不会立即影响其他的一些对象之间的作用。（如：TCP/IP打洞技术）</p>
+<p>装饰模式：装饰模式以对客户端透明的方式扩展对象的功能是继承关系的一个替代方案，提供比继承更多的灵活性。动态给一个对象增加功能，这些功能可以再动态的撤消。增加由一些基本功能的排列组合而产生的非常大量的功能。</p>
+<p>状态模式：意图是让一个对象在其内部状态改变的时候，其行为也随之改变。状态模式需要对每一个系统可能取得的状态创立一个状态类的子类。当系统的状态变化时，系统便改变所选的子类。(如：到了晚上12点要睡觉，到了早上8点要起床…这就是状态)</p>
+<p>合成模式：将对象组织到树结构中，可以用来描述整体与部分的关系。合成模式就是一个处理对象的树结构的模式。合成模式把部分与整体的关系用树结构表示出来。(用于树状结构)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/12/25/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" data-id="ckd7biyo0000amf8n9klz2ho2" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">c++ 设计模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-pomelo学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/23/pomelo%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2018-10-23T11:34:45.000Z" itemprop="datePublished">2018-10-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%A1%86%E6%9E%B6/">服务端框架</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/23/pomelo%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">pomelo学习笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>环境</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">getBase()     Application.getBase(); 获取应用程序的基本路径</span><br><span class="line"><span class="built_in">set</span>(setting, val, attach);     Application.set();  setting:应用程序的配置；val:需要设置的值；attach:是否将设配置应用到程序。设置或返回配置的值。</span><br><span class="line">get(setting)     Application.get(); setting:应用程序的配置。获取配置的值</span><br><span class="line">enabled(setting)     Application.enabled(); setting:应用程序的配置。检查配置是否启用</span><br><span class="line">disabled(setting)     Application.disabled(); setting:应用程序的配置。检查配置是否禁用</span><br><span class="line">enbale(setting)     Application.enbale(); setting:应用程序的配置。启用配置</span><br><span class="line"><span class="built_in">disable</span>(setting)     Application.disabled(); setting:应用程序的配置。禁用配置</span><br><span class="line">configure(env,fn,<span class="built_in">type</span>)    Application.configure();env:应用环境;fn:回调函数;<span class="built_in">type</span>:服务类型.</span><br></pre></td></tr></table></figure>
+<p>初始化</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">start()     Application.start(); 启动应用程序。它会加载默认的组件和启动所有加载的组件。</span><br><span class="line">registerAdmin(moduleId,module,opts)     Application.registerAdmin();  moduleId:(可选参数)模块id或者有modeule提供的模块Id;module:模块对象或者模块的工程函数;opts:模块构造函数的参数。</span><br><span class="line">filter(filter)     Application.filter(); filter:provide before and after filter method。add a filter to before and after filter</span><br><span class="line">before(bf)     Application.before(); bf:before filter。Add before filter</span><br><span class="line">after(af)     Application.after(); af:after filter。Add after filter</span><br><span class="line">load(name, component, opts)     Application.load(); name:组件的名称（可选）；component：组件的实例或者组件的工厂函数；opts：组件构造函数的参数（可选）。加载组件</span><br><span class="line">loadConfig(key,val)     Application.loadConfig(); key:环境配置的关键字;val:环境配置的值。导入json文件来配置环境。</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2018/10/23/pomelo%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/10/23/pomelo%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" data-id="ckd7biyol000rmf8n7z7q3gij" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/" rel="tag">node.js</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-node笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/21/node%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2018-08-21T09:04:37.000Z" itemprop="datePublished">2018-08-21</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/">开发语言</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/21/node%E7%AC%94%E8%AE%B0/">node笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>第一章 node简介<br>1.1 node的特点<br>    1.1.1 异步I/O 绝大多数操作以异步方式进行调用<br>    1.1.2 事件与回调函数<br>    1.1.3 单线程，但是可以用WebWorkers的方式解决单线程的问题（子进程），用Master-Worker用master统一管理子进程<br>    1.1.4 跨平台<br>    1.1.5 c++速度大约是node的2.5倍</p>
+<p>1.2 模块机制<br>    1.2.1 分为核心模块和文件模块，require没带路径的为核心模块，直接加载进内存，带路径的为文件模块,核心模块中有c++和javascript两部分，其中buffer、crypto、evals、fs、os、等都是c++部分的<br>    1.2.2 npm安装的核心模块插件在package.json中定义</p>
+<p>1.3 异步I/O<br>    1.3.1 操作系统内核对I/O只有：阻塞I/O和非阻塞I/O，node中的异步I/O模型由事件循环、观察者、请求对象、I/O线程池<br>    整个系统可以理解为事件循环相当于厨子，不停的询问是否有新的订单，观察者相当于收银员，收到用户的订单将订单分给厨子，而订单相当于请求对象，参数、方法、回调函数斗封装在请求对象中,<br>    以上是异步I/O的第一步，io线程池相当于放订单的桌子，  请求对象-&gt;I/O线程池-&gt;观察者-&gt;事件循环<br>    1.3.2 非异步的I/O主要是setTimeout(),setInterval(),setImmediate(),process.nextTick()</p>
+        
+          <p class="article-more-link">
+            <a href="/2018/08/21/node%E7%AC%94%E8%AE%B0/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/21/node%E7%AC%94%E8%AE%B0/" data-id="ckd7biyoh000pmf8n771j0tq3" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/" rel="tag">node.js</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-翻译提取替换" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/03/%E7%BF%BB%E8%AF%91%E6%8F%90%E5%8F%96%E6%9B%BF%E6%8D%A2/" class="article-date">
+  <time datetime="2018-08-03T03:02:18.000Z" itemprop="datePublished">2018-08-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E8%84%9A%E6%9C%AC%E5%B7%A5%E5%85%B7/">脚本工具</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/03/%E7%BF%BB%E8%AF%91%E6%8F%90%E5%8F%96%E6%9B%BF%E6%8D%A2/">翻译提取替换</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>提取<br>提取客户端资源文件之前先要用uc-utf8.php转utf-8 把unicode码转成utf-8的日文在提取<br>将要提取文字的文件整合与getFromHtml.sh 放在同目录下<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment">#sh getFromHtml.sh under the template fold</span></span><br><span class="line"><span class="comment">#Change filelist.csv to excel file, and give it to translator</span></span><br><span class="line"></span><br><span class="line">LANG=C grep -r -n -v <span class="string">&#x27;^[[:cntrl:][:print:]]*$&#x27;</span> . | grep -v <span class="string">&quot;using UnityEngine;&quot;</span> | grep -v svn | grep -v //  | grep -v \* |  grep -v <span class="string">&quot;\&#123;\*&quot;</span> |  grep -v <span class="string">&quot;\&quot;Name\&quot;&quot;</span> &gt; ~/lj_2_3_server.csv</span><br><span class="line"></span><br><span class="line">sed -i <span class="string">&#x27;s@\t@ @g&#x27;</span> ~/lj_2_3_server.csv</span><br><span class="line">sed -i <span class="string">&#x27;s@\([^:]*\):\([0-9]*\):@\1\t\2\t@&#x27;</span> ~/lj_2_3_server.csv</span><br></pre></td></tr></table></figure>
+<a href="/download/getFromHtml.sh">点击下载</a>
+        
+          <p class="article-more-link">
+            <a href="/2018/08/03/%E7%BF%BB%E8%AF%91%E6%8F%90%E5%8F%96%E6%9B%BF%E6%8D%A2/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/03/%E7%BF%BB%E8%AF%91%E6%8F%90%E5%8F%96%E6%9B%BF%E6%8D%A2/" data-id="ckd7biypf001emf8ne4mz1lao" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-redis笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/08/01/redis%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2018-08-01T08:52:31.000Z" itemprop="datePublished">2018-08-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/01/redis%E7%AC%94%E8%AE%B0/">redis笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>Redis是什么、特点、优势<br>redis是Key-Value数据库,数据包含各种数据 字符串String、字典Hash、列表List、集合Set、有序集合SortedSet等<br>redis支持数据持久化，重启再次加载,支持数据备份(支持分布式),Redis是单进程单线程的<br>Redis的优势<br>性能高 读速度110000/s 写速度81000/s<br>丰富的数据类型</p>
+</li>
+<li><p>redis安装（Linux）、启动、退出、设置密码、远程连接</p>
+</li>
+<li><p>1 安装redis<br>下载redis安装包（如：redis-2.8.17.tar.gz）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf redis-2.8.17.tar.gz</span><br><span class="line"><span class="built_in">cd</span> redis-2.8.17</span><br><span class="line">make</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure></li>
+<li><p>2 后台启动服务端</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup redis-server &amp;</span><br></pre></td></tr></table></figure></li>
+<li><p>3 启动客户端、验证</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/bin</span><br><span class="line">redis-cli</span><br><span class="line"><span class="built_in">set</span> var <span class="string">&quot;hello world&quot;</span></span><br><span class="line">get var</span><br></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/2018/08/01/redis%E7%AC%94%E8%AE%B0/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/08/01/redis%E7%AC%94%E8%AE%B0/" data-id="ckd7biyor000wmf8n06x7eqnw" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/" rel="tag">redis</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/">开发环境安装</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/">开发语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%A1%86%E6%9E%B6/">服务端框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%84%9A%E6%9C%AC%E5%B7%A5%E5%85%B7/">脚本工具</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Capistrano-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7/" rel="tag">Capistrano 自动部署工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Erlang/" rel="tag">Erlang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby-on-Rails/" rel="tag">Ruby on Rails</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sentry/" rel="tag">Sentry</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">c++ 设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongodb/" rel="tag">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-js/" rel="tag">node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/td-agent/" rel="tag">td-agent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%B8%E6%88%8F/" rel="tag">游戏</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Capistrano-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">Capistrano 自动部署工具</a> <a href="/tags/Erlang/" style="font-size: 13.33px;">Erlang</a> <a href="/tags/Ruby-on-Rails/" style="font-size: 10px;">Ruby on Rails</a> <a href="/tags/Sentry/" style="font-size: 10px;">Sentry</a> <a href="/tags/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">c++ 设计模式</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/node-js/" style="font-size: 16.67px;">node.js</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/td-agent/" style="font-size: 10px;">td-agent</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 20px;">游戏</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/28/mongodb%E7%AC%94%E8%AE%B0/">mongodb笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/14/node%E4%B8%AD%E9%97%B4%E4%BB%B6/">node中间件</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/09/python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">python学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/06/mysql%E7%AC%94%E8%AE%B0/">mysql笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/29/%E6%B8%B8%E6%88%8F%E6%88%90%E5%B0%B1%E4%BB%BB%E5%8A%A1%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">游戏成就任务系统设计</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

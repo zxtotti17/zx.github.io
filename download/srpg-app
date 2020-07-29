@@ -1,0 +1,102 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides:             webapp
+# Required-Start:       $syslog $remote_fs
+# Required-Stop:        $syslog $remote_fs
+# Should-Start:         $local_fs
+# Should-Stop:          $local_fs
+# Default-Start:        2 3 4 5
+# Default-Stop:         0 1 6
+# Short-Description:    Alchemist Webapp
+# Description:          Alchemist Webapp
+### END INIT INFO
+#
+### BEGIN CHKCONFIG INFO
+# chkconfig: 2345 55 25
+# description: Alchemist Webapp
+### END CHKCONFIG INFO
+
+USER="webapp"
+NAME="webapp"
+NODE_ENV="production"
+NODE_BIN_DIR="/usr/local/node/bin"
+NODE_PATH="/usr/local/node/lib/node_modules"
+APPLICATION_PATH="/var/webapps/alchemist/current/node/app/app.js"
+APPLICATION_WORKDIR="/var/webapps/alchemist/current/node/app/"
+APPLICATION_OPTION=""
+LOGFILE="/var/webapps/alchemist/log/forever/app.log"
+MIN_UPTIME="5000"
+SPIN_SLEEP_TIME="10000"
+
+PATH=$NODE_BIN_DIR:$PATH
+
+export NODE_PATH=$NODE_PATH
+
+start() {
+    echo `runuser -l "$USER" -c "forever list"` | grep -q "$APPLICATION_PATH"
+    if [ "$?" -eq "0" ]; then
+        echo "$NAME is already running."
+        RETVAL=0
+    else
+        echo "Starting $NAME"
+        runuser -l "$USER" -c "\
+        export NODE_ENV=$NODE_ENV &&
+        forever \
+        -a \
+        -l $LOGFILE \
+        --minUptime $MIN_UPTIME \
+        --spinSleepTime $SPIN_SLEEP_TIME \
+        --workingDir $APPLICATION_WORKDIR \
+        start $APPLICATION_PATH $APPLICATION_OPTION" 2>&1 > /dev/null &
+        RETVAL=$?
+    fi
+}
+
+stop() {
+    echo `runuser -l "$USER" -c "forever list"` | grep -q "$APPLICATION_PATH"
+    if [ "$?" -eq "0" ]; then
+        echo "Shutting down $NAME"
+        # Tell Forever to stop the process.
+        runuser -l "$USER" -c "forever stop $APPLICATION_PATH" 2>&1 > /dev/null
+        RETVAL=$?
+    else
+        echo "$NAME is not running."
+        RETVAL=0
+    fi
+}
+
+restart() {
+    stop
+    start
+}
+
+status() {
+    echo `runuser -l "$USER" -c "forever list"` | grep -q "$APPLICATION_PATH"
+    if [ "$?" -eq "0" ]; then
+        echo "$NAME is running."
+        RETVAL=0
+    else
+        echo "$NAME is not running."
+        RETVAL=3
+    fi
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status
+        ;;
+    restart)
+        restart
+        ;;
+    *)
+        echo "Usage: {start|stop|status|restart}"
+        exit 1
+        ;;
+esac
+exit $RETVAL

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>mysql笔记 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="第1章 SQL基础1.数据分为DDL(数据定义语言)，DML(数据操纵语言)，DCL(数据控制语言)    1.1 DDL语句    123456789101112131415mysql -uroot -pcreate database test1;use test1;show tables;                                   #查看所有表drop databas">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql笔记">
+<meta property="og:url" content="http://yoursite.com/2020/07/06/mysql%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="第1章 SQL基础1.数据分为DDL(数据定义语言)，DML(数据操纵语言)，DCL(数据控制语言)    1.1 DDL语句    123456789101112131415mysql -uroot -pcreate database test1;use test1;show tables;                                   #查看所有表drop databas">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/07/06/mysql%E7%AC%94%E8%AE%B0/1594024645933.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/07/06/mysql%E7%AC%94%E8%AE%B0/1594091073360.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/07/06/mysql%E7%AC%94%E8%AE%B0/1594103060655.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/07/06/mysql%E7%AC%94%E8%AE%B0/1594103257328.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/07/06/mysql%E7%AC%94%E8%AE%B0/1594103590868.jpg">
+<meta property="article:published_time" content="2020-07-06T08:40:36.000Z">
+<meta property="article:modified_time" content="2020-07-29T12:00:07.590Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="mysql">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/07/06/mysql%E7%AC%94%E8%AE%B0/1594024645933.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-mysql笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/06/mysql%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2020-07-06T08:40:36.000Z" itemprop="datePublished">2020-07-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      mysql笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>第1章 SQL基础<br>1.数据分为DDL(数据定义语言)，DML(数据操纵语言)，DCL(数据控制语言)<br>    1.1 DDL语句<br>    <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p</span><br><span class="line">create database test1;</span><br><span class="line">use test1;</span><br><span class="line">show tables;                                   <span class="comment">#查看所有表</span></span><br><span class="line">drop database test1;</span><br><span class="line">create table emp(ename varchar(10),hiredate date,sal decimal(2,10),deptno int(2));</span><br><span class="line">desc emp;                                    <span class="comment">#查看表信息</span></span><br><span class="line">show create table emp \G;                    <span class="comment">#\G使得记录能够按照字段竖向排列 以便显示更长内容</span></span><br><span class="line">drop table emp;</span><br><span class="line">alter table emp modify ename varchar(20);    <span class="comment">#修改表字段</span></span><br><span class="line">alter table emp add column age int(3);        <span class="comment">#添加字段</span></span><br><span class="line">alter table emp drop colum age                <span class="comment">#删除字段</span></span><br><span class="line">alter table emp change age age123 int(4);    <span class="comment">#字段改名同时修改类型</span></span><br><span class="line">alter table emp add birth date after ename;    <span class="comment">#修改字段排列顺序</span></span><br><span class="line">alter table emp rename emp1;</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<pre><code>1.2 DML语句 增删改查
+&lt;!--hexoPostRenderEscape:&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;insert into emp (ename,sal) values(&lt;span class=&quot;string&quot;&gt;&amp;#x27;dony&amp;#x27;&lt;/span&gt;,1000);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;delete from emp &lt;span class=&quot;built_in&quot;&gt;where&lt;/span&gt; ename = &lt;span class=&quot;string&quot;&gt;&amp;#x27;xxx&amp;#x27;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;select distinct age from emp1;                                                &lt;span class=&quot;comment&quot;&gt;#查询的内容去重&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;select * from emp order by age,deptno desc;                                    &lt;span class=&quot;comment&quot;&gt;#根据某个字段排序&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    select age,count(1) from emp group by age with rollup;                        &lt;span class=&quot;comment&quot;&gt;#分类统计计数及总数&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    select age,count(1) from emp group by age having count(1)&amp;gt;1;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    select ename,deptname from emp,dept &lt;span class=&quot;built_in&quot;&gt;where&lt;/span&gt; emp.age = dept.age;                &lt;span class=&quot;comment&quot;&gt;#联查,内链接&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    select ename,deptname from emp left jion dept on emp.deptno = dept.deptno;    &lt;span class=&quot;comment&quot;&gt;#表链接很多情况下优于子查询&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    select * from dept union all select * from emp;                                &lt;span class=&quot;comment&quot;&gt;#集合显示不去重&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    select * from dept union select * from emp;                                    &lt;span class=&quot;comment&quot;&gt;#集合显示去重&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;:hexoPostRenderEscape--&gt;
+You can&#39;t specify target table &#39; for update in FROM clause
+Mysql不让对查询到的目标语句进行更新
+&lt;!--hexoPostRenderEscape:&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;DELETE FROM playeritems WHERE id IN(SELECT mid FROM (SELECT min(id) as mid FROM playeritems WHERE uid = &lt;span class=&quot;string&quot;&gt;&amp;#x27;1300200112870961&amp;#x27;&lt;/span&gt; GROUP BY iname HAVING count(iname) &amp;gt; 1 )as tmp);&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;:hexoPostRenderEscape--&gt;
+
+1.3 DCL语句
+&lt;!--hexoPostRenderEscape:&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;grant select,insert on sakila.* to &lt;span class=&quot;string&quot;&gt;&amp;#x27;z1@localhost&amp;#x27;&lt;/span&gt; identified by &lt;span class=&quot;string&quot;&gt;&amp;#x27;123&amp;#x27;&lt;/span&gt;;         &lt;span class=&quot;comment&quot;&gt;#赋予用户权限&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;revoke insert on sakila.* from &lt;span class=&quot;string&quot;&gt;&amp;#x27;z1@localhost&amp;#x27;&lt;/span&gt;;                                &lt;span class=&quot;comment&quot;&gt;#回收权限&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;:hexoPostRenderEscape--&gt;</code></pre>
+<p>2.常用函数<br>    <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">select NOW();                                    <span class="comment">#xxxx-xx-xx xx:xx:xx</span></span><br><span class="line">select UNIX_TIMESTAMP(now());                    <span class="comment">#时间戳</span></span><br><span class="line">select FROM_UNIXTIME(时间戳);                    <span class="comment">#xxxx-xx-xx xx:xx:xx</span></span><br><span class="line">IF(value,t,f)                                    <span class="comment">#如果value为真，返回t,否则返回f</span></span><br><span class="line">select <span class="keyword">if</span>(a &gt; 2000, <span class="string">&#x27;high&#x27;</span>,<span class="string">&#x27;low&#x27;</span>) from B</span><br><span class="line">IFNULL(value1,value2)                            <span class="comment">#如果value1不为空，返回value1,否则返回value2</span></span><br><span class="line">select ifnull(a , 0) from B</span><br><span class="line">CASE WHEN value THEN res1 ... ELSE def END        <span class="comment">#如果value1真，返回res1,否则返回def</span></span><br><span class="line">select <span class="keyword">case</span> when a&lt;2000 <span class="keyword">then</span> <span class="string">&#x27;low&#x27;</span> <span class="keyword">else</span> <span class="string">&#x27;high&#x27;</span> end from B</span><br><span class="line">CASE exp WHEN value THEN res1 ... ELSE def END    <span class="comment">#如果exp = value1真，返回res1,否则返回def</span></span><br><span class="line">select <span class="keyword">case</span> a when 1000 <span class="keyword">then</span> <span class="string">&#x27;low&#x27;</span> when 2000 <span class="keyword">then</span> <span class="string">&#x27;mid&#x27;</span> <span class="keyword">else</span> <span class="string">&#x27;high&#x27;</span> end from B</span><br></pre></td></tr></table></figure></p>
+<p>第2章 存储引擎<br>1.mysql的存储引擎有好多种，这边记录2种<br>    1.1 MyISAM 不支持事务、不支持外键、速度快、表锁<br>    1.2 InnoDB 支持提交、回滚、奔溃恢复能力的事务安全，行锁</p>
+<p>2.myssql事务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">start transaction;</span><br><span class="line">sql 操作</span><br><span class="line">commit and chain;</span><br></pre></td></tr></table></figure>
+
+<p>3.防止sql注入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$re</span> = <span class="string">&quot;/(|\&#x27;|(\%27)|\;|(\%3b)|\=|(\%3d)|\(|(\%28)|\)|(\%29)|(\/*) |(\%2f%2a)|(\ */)|(\%2a%2f)|\+|(\%2b)|\&lt;|(\%3c)|\&gt;|(\%3e)|\(--))|\[|\%5b|\]|\%5d)/&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(preg_match(<span class="variable">$re</span>, <span class="variable">$aa</span>) &gt;0)&#123;</span><br><span class="line">    <span class="built_in">echo</span>(<span class="string">&quot;参数不对&quot;</span>);</span><br><span class="line">    <span class="built_in">return</span> 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4.SQL MODE<br>ANSI 使语法行为更符合sql<br>STRICT_TRANS_TABLES 试用于事务，严格模式，报错不警告,不允许非法日期<br>TRADITIONAL 严格模式，适用于事务非事务，不警告直接报错</p>
+<p>5.sql分区<br>RANGE分区：基于一个给定连续区间范围，把数据分配到不同分区<br>LIST分区：类似RANGE<br>HASH分区：基于给定的分区个数，把数据分配到不同分区<br>KEY分区：类似于HASH分区<br>RANGE\LIST\HASH分区键必须INT型</p>
+<p>好处4点<br>存储更多数据、优化查询、快速删除数据、获得更大查询吞吐量<br>Range分区利用取值范围将数据分成分区</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE emp(</span><br><span class="line">id INT NOT NULL,</span><br><span class="line">NAME VARCHAR(20),</span><br><span class="line">age INT</span><br><span class="line">)</span><br><span class="line">PARTITION BY RANGE(ID)(</span><br><span class="line">PARTITION p0 VALUES LESS THAN (6),</span><br><span class="line">PARTITION p1 VALUES LESS THAN (11),</span><br><span class="line">PARTITION pmax VALUES LESS THAN maxvalue</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>LIST分区是建立离散的之列表告诉数据库特定值在哪个分区</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE expense(</span><br><span class="line">expense_date DATE NOT NULL,</span><br><span class="line">category INT,</span><br><span class="line">amount DECIMAL (10,3)</span><br><span class="line">)</span><br><span class="line">PARTITION BY LIST(category)(</span><br><span class="line">PARTITION p0 VALUES IN(3,5),<span class="comment">#可字符串在5.5版本后</span></span><br><span class="line">PARTITION p1 VALUES IN(1,10),</span><br><span class="line">PARTITION p2 VALUES IN(4,9),</span><br><span class="line">PARTITION p3 VALUES IN(2),</span><br><span class="line">PARTITION p4 VALUES IN(6)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>Columns分区可分为 RANGE Columns和LIST Columns分区都支持int\date\string,还支持多列</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE expense(</span><br><span class="line">a INT,</span><br><span class="line">b INT</span><br><span class="line">)</span><br><span class="line">PARTITION BY RANGE COLUMS(a,b)(</span><br><span class="line">PARTITION p0 VALUES IN(0,10),<span class="comment">#可字符串在5.5版本后</span></span><br><span class="line">PARTITION p1 VALUES IN(10,10),</span><br><span class="line">PARTITION p2 VALUES IN(10,29)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>HASH分区用来分散热点读，确保数据在预留分区平均分布，有常规分区和线性分区</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#常规 平衡不方便</span></span><br><span class="line">CREATE TABLE emp(</span><br><span class="line">id INT NOT NULL,</span><br><span class="line">NAME VARCHAR(20),</span><br><span class="line">age INT</span><br><span class="line">)</span><br><span class="line">PARTITION BY HASH(ID) PARTITIONS 4;</span><br><span class="line"><span class="comment">#线性 快速不平衡</span></span><br><span class="line">CREATE TABLE emp(</span><br><span class="line">id INT NOT NULL,</span><br><span class="line">NAME VARCHAR(20),</span><br><span class="line">age INT</span><br><span class="line">)</span><br><span class="line">PARTITION BY LINEAR HASH(ID) PARTITIONS 4;</span><br></pre></td></tr></table></figure>
+<p>key分区<br>类似HASH分区，数据类型除TEXThe BLOB以外都可以</p>
+<p>RANGE&amp;LIST 分区管理 分区被删除了分区中的数据也被删除了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">alter table xxx drop partition p2; <span class="comment">#删</span></span><br><span class="line">alter table xxx add partition (partiton p5 values less than (2025)) <span class="comment">#增  不能添加一个包含现有分区值列表中的任意值分区</span></span><br><span class="line">alter table xxx reorganize partition p3 into (</span><br><span class="line">    partition p2 values less than (2005),</span><br><span class="line">    partition p3 values less than (2015)</span><br><span class="line">);            <span class="comment">#拆分</span></span><br><span class="line">alter table xxx reorganize partition p1,p2,p3 into (</span><br><span class="line">    partition p1 values less than (2015)</span><br><span class="line">);        <span class="comment">#合并</span></span><br></pre></td></tr></table></figure>
+
+<p>HASH&amp;KEY 分区管理</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alter table xxx coalesce partition 2; <span class="comment">#原4删2</span></span><br><span class="line">alter table xxx coalesce partition 8; <span class="comment">#原4加8</span></span><br></pre></td></tr></table></figure>
+
+<p>6.SQL优化</p>
+<ol>
+<li>通过慢查询日志定位效率低的sql,在查询过程中出现的情况可以用show processlist命令查看mysql进程，看锁表及进程状态</li>
+<li>将慢的sql提取做explain分析，type的性能如下<br> ALL,全表扫瞄<br> index,索引全扫描<br> range,索引范围扫描 常见&lt;&lt;=&gt;&gt;=\between<br> ref,使用非唯一索引扫描或者唯一索引前缀扫描（联合索引）<br> eq_ref,使用唯一索引<br> const/system,单表中最多有一个匹配行<br> NULL，不查表直接得到结果<br> 自上而下效率越来越高</li>
+<li>通过show profile分析sql<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select @@have_profiling;    <span class="comment">#查询是否支持</span></span><br><span class="line">select @@profiling;        <span class="comment">#查询是否开启</span></span><br><span class="line"><span class="built_in">set</span> profiling=1;        <span class="comment">#开启</span></span><br><span class="line">show profiles;            <span class="comment">#显示sql的执行排列</span></span><br><span class="line">show profile <span class="keyword">for</span> query 4;    <span class="comment">#查找具体某一条的状态</span></span><br><span class="line">show profile cpu <span class="keyword">for</span> query 4;    <span class="comment">#查询莫一条在具体（all\cpu\block io\context\switch\page faults）</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>mac或者linux当mysql连接不上的时候加<br>ALTER USER ‘root’@’localhost’ IDENTIFIED WITH mysql_native_password BY ‘password’;</p>
+<p>7.mysql配置优化<br>在mysqld下</p>
+<p><label style="color:red">为所有线程打开的表的数量。增加这个值会增加mysqld需要的文件描述符的数量。因此，您必须确保在[mysqld_safe]节中的变量“open-files-limit”中将允许打开的文件数量至少设置为4096</label><br>table_open_cache=2000</p>
+<p><label style="color:red">内部(内存)临时表的最大大小。如果一个表比这个值大，那么它将自动转换为基于磁盘的表。可以有很多。</label><br>tmp_table_size=94M</p>
+<p><label style="color:red">我们应该在缓存中保留多少线程以供重用。当客户机断开连接时，如果之前的线程数不超过thread_cache_size，则将客户机的线程放入缓存。如果您有很多新连接，这将大大减少所需的线程创建量(通常，如果您有一个良好的线程实现，这不会带来显著的性能改进)。</label><br>thread_cache_size=10</p>
+<p><label style="color:red">如果用于快速创建索引的临时文件比这里指定的使用键缓存的文件大，则首选键缓存方法。这主要用于强制大型表中的长字符键使用较慢的键缓存方法来创建索引。</label><br>key_buffer_size=8M</p>
+<p><label style="color:red">用于对MyISAM表执行全表扫描的缓冲区的大小。如果需要完整的扫描，则为每个线程分配。</label><br>read_buffer_size=16M<br>read_rnd_buffer_size=32M</p>
+<p><label style="color:red">如果在SHOW GLOBAL STATUS输出中每秒看到许多sort_merge_passes，可以考虑增加sort_buffer_size值，以加快ORDER BY或GROUP BY操作的速度，这些操作无法通过查询优化或改进索引来改进。</label><br>sort_buffer_size=16M</p>
+<p><label style="color:red">InnoDB用于缓冲日志数据的缓冲区大小。一旦它满了，InnoDB就必须将它刷新到磁盘。由于它无论如何每秒刷新一次，所以将它设置为非常大的值是没有意义的(即使是长事务)。</label><br>innodb_log_buffer_size=5M</p>
+<p><label style="color:red">与MyISAM不同，InnoDB使用缓冲池来缓存索引和行数据。设置的值越大，访问表中的数据所需的磁盘I/O就越少。在专用数据库服务器上，可以将该参数设置为机器物理内存大小的80%。但是，不要将它设置得太大，因为物理内存的竞争可能会导致操作系统中的分页。注意，在32位系统上，每个进程的用户级内存可能被限制在2-3.5G，所以不要设置得太高。</label><br>innodb_buffer_pool_size=20M</p>
+<p><label style="color:red">ORDER BY 或者GROUP BY 操作的buffer缓存大小</label><br>innodb_sort_buffer_size = 64M</p>
+<p><label style="color:red">为了提升扩展性和刷脏效率，在5.7.4版本里引入了多个page cleaner线程。从而达到并行刷脏的效果<br>在该版本中，Page cleaner并未和buffer pool绑定，其模型为一个协调线程 + 多个工作线程，协调线程本身也是工作线程。因此如果innodb_page_cleaners设置为8，那么就是一个协调线程，加7个工作线程</label><br>innodb_page_cleaners = 4</p>
+<p><label style="color:red">mysql客户端连接数据库是交互式连接，通过jdbc连接数据库是非交互式连接</label><br>interactive_timeout = 100 # 交互式连接超时<br>wait_timeout = 100 # 非交互连接超时</p>
+<p>8.mysql索引背后的数据结构及算法</p>
+<h1 id="B-Tree"><a href="#B-Tree" class="headerlink" title="B-Tree"></a>B-Tree</h1><p>为了描述B-Tree，首先定义一条数据记录为一个二元组[key, data]，key为记录的键值，对于不同数据记录，key是互不相同的；data为数据记录除key外的数据。那么B-Tree是满足下列条件的数据结构：<br>d为大于1的一个正整数，称为B-Tree的度。<br>h为一个正整数，称为B-Tree的高度。<br>每个非叶子节点由n-1个key和n个指针组成，其中d&lt;=n&lt;=2d。<br>每个叶子节点最少包含一个key和两个指针，最多包含2d-1个key和2d个指针，叶节点的指针均为null 。<br>所有叶节点具有相同的深度，等于树高h。<br>key和指针互相间隔，节点两端是指针。<br>一个节点中的key从左到右非递减排列。<br>所有节点组成树结构。<br>每个指针要么为null，要么指向另外一个节点。<br>如果某个指针在节点node最左边且不为null，则其指向节点的所有key小于(v(key_1))，其中(v(key_1))为node的第一个key的值。<br>如果某个指针在节点node最右边且不为null，则其指向节点的所有key大于(v(key_m))，其中(v(key_m))为node的最后一个key的值。<br>如果某个指针在节点node的左右相邻key分别是(key_i)和(key_{i+1})且不为null，则其指向节点的所有key小于(v(key_{i+1}))且大于(v(key_i))。<br>图2是一个d=2的B-Tree示意图。<br><img src="1594024645933.jpg" alt="图2"></p>
+<p>由于B-Tree的特性，在B-Tree中按key检索数据的算法非常直观：首先从根节点进行二分查找，如果找到则返回对应节点的data，否则对相应区间的指针指向的节点递归进行查找，直到找到节点或找到null指针，前者查找成功，后者查找失败。B-Tree上查找算法的伪代码如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">BTree_Search(node, key) &#123;</span><br><span class="line">    <span class="keyword">if</span>(node == null) <span class="built_in">return</span> null;</span><br><span class="line">    foreach(node.key)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(node.key[i] == key) <span class="built_in">return</span> node.data[i];</span><br><span class="line">            <span class="keyword">if</span>(node.key[i] &gt; key) <span class="built_in">return</span> BTree_Search(point[i]-&gt;node);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">return</span> BTree_Search(point[i+1]-&gt;node);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>data = BTree_Search(root, my_key);<br>关于B-Tree有一系列有趣的性质，例如一个度为d的B-Tree，设其索引N个key，则其树高h的上限为(log_d((N+1)/2))，检索一个key，其查找节点个数的渐进复杂度为(O(log_dN))。从这点可以看出，B-Tree是一个非常有效率的索引数据结构。</p>
+<h1 id="B-Tree-1"><a href="#B-Tree-1" class="headerlink" title="B+Tree"></a>B+Tree</h1><p>MySQL就普遍使用B+Tree实现其索引结构<br>与B-Tree相比，B+Tree有以下不同点：<br>每个节点的指针上限为2d而不是2d+1。<br>内节点不存储data，只存储key；叶子节点不存储指针。<br>图3是一个简单的B+Tree示意。<br><img src="1594091073360.jpg" alt="图3"></p>
+<p>一般在数据库系统或文件系统中使用的B+Tree结构都在经典B+Tree的基础上进行了优化，增加了顺序访问指针</p>
+<h1 id="MyISAM索引"><a href="#MyISAM索引" class="headerlink" title="MyISAM索引"></a>MyISAM索引</h1><p>使用的是B+Tree作为索引结构，叶节点的data域存放的是数据记录的地址<br><img src="1594103060655.jpg" alt="图4"></p>
+<h1 id="InnoDB索引"><a href="#InnoDB索引" class="headerlink" title="InnoDB索引"></a>InnoDB索引</h1><p>InnoDB也使用B+Tree作为索引结构<br>第一重大区别是InnoDB的数据文件本身就是索引文件，InnoDB表数据文件本身就是主索引<br><img src="1594103257328.jpg" alt="图5"><br>因为InnoDB的数据文件本身要按主键聚集，所以InnoDB要求表必须有主键（MyISAM可以没有）如果没有显式指定，则MySQL系统会自动选择一个可以唯一标识数据记录的列作为主键，如果不存在这种列，则MySQL自动为InnoDB表生成一个隐含字段作为主键，这个字段长度为6个字节，类型为长整形<br>第二个与MyISAM索引的不同是InnoDB的辅助索引data域存储相应记录主键的值而不是地址<br><img src="1594103590868.jpg" alt="图6"><br>聚集索引这种实现方式使得按主键的搜索十分高效，但是辅助索引搜索需要检索两遍索引：首先检索辅助索引获得主键，然后用主键到主索引中检索获得记录<br><label style="color:red">因为InnoDB数据文件本身是一颗B+Tree，非单调的主键会造成在插入新记录时数据文件为了维持B+Tree的特性而频繁的分裂调整，十分低效，而使用自增字段作为主键则是一个很好的选择</label></p>
+<h1 id="InnoDB的主键选择与插入优化"><a href="#InnoDB的主键选择与插入优化" class="headerlink" title="InnoDB的主键选择与插入优化"></a>InnoDB的主键选择与插入优化</h1><p>在使用InnoDB存储引擎时，如果没有特别的需要，请永远使用一个与业务无关的自增字段作为主键 （百万条以下的数据看不出来多大区别）</p>
+<p>9.mysql 调优过程中的常用命令<br>ps -es|grep mysql</p>
+<h1 id="当启动不了或者报错的时候，mysql-Password字段是authentication-string-配置太多会报错启动用"><a href="#当启动不了或者报错的时候，mysql-Password字段是authentication-string-配置太多会报错启动用" class="headerlink" title="当启动不了或者报错的时候，mysql Password字段是authentication_string,配置太多会报错启动用"></a>当启动不了或者报错的时候，mysql Password字段是authentication_string,配置太多会报错启动用</h1><p>/usr/local/mysql/bin/mysqld –user=mysql </p>
+<h1 id="刷新数据库-进mysql后"><a href="#刷新数据库-进mysql后" class="headerlink" title="刷新数据库 进mysql后"></a>刷新数据库 进mysql后</h1><p>flush privileges</p>
+<h1 id="Access-denied-for-user-‘root-localhost’报错"><a href="#Access-denied-for-user-‘root-localhost’报错" class="headerlink" title="Access denied for user ‘root@localhost’报错"></a>Access denied for user ‘root@localhost’报错</h1><p>update mysql.user set authentication_string=’123’ where user=’root’;</p>
+<h1 id="macs上的环境变量open-bash-profile中加入如下然后保存-source-bash-profile"><a href="#macs上的环境变量open-bash-profile中加入如下然后保存-source-bash-profile" class="headerlink" title="macs上的环境变量open ~/.bash_profile中加入如下然后保存   source ~/.bash_profile"></a>macs上的环境变量open ~/.bash_profile中加入如下然后保存   source ~/.bash_profile</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#mysql</span></span><br><span class="line"><span class="built_in">export</span> MYSQL=/usr/<span class="built_in">local</span>/mysql/bin</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$MYSQL</span>:<span class="variable">$PYTHON3</span>:<span class="variable">$PATH</span>:</span><br></pre></td></tr></table></figure>
+<h1 id="查看MySQL服务器配置信息"><a href="#查看MySQL服务器配置信息" class="headerlink" title="查看MySQL服务器配置信息"></a>查看MySQL服务器配置信息</h1><p>mysql&gt; show variables;</p>
+<h1 id="查看MySQL服务器运行的各种状态值"><a href="#查看MySQL服务器运行的各种状态值" class="headerlink" title="查看MySQL服务器运行的各种状态值"></a>查看MySQL服务器运行的各种状态值</h1><p>mysql&gt; show global status;</p>
+<h1 id="mysql一定要定期清理日志，不然会出莫名其妙的问题，什么有的库打开就断开连接这样的"><a href="#mysql一定要定期清理日志，不然会出莫名其妙的问题，什么有的库打开就断开连接这样的" class="headerlink" title="mysql一定要定期清理日志，不然会出莫名其妙的问题，什么有的库打开就断开连接这样的"></a>mysql一定要定期清理日志，不然会出莫名其妙的问题，什么有的库打开就断开连接这样的</h1><p>ERROR 1030 (HY000) at line 33: Got error 168 from storage engine<br>mysql&gt; reset master;#清除日志</p>
+<h1 id="连接数查看"><a href="#连接数查看" class="headerlink" title="连接数查看"></a>连接数查看</h1><p>show status like ‘Threads%’;<br>SHOW VARIABLES LIKE ‘%max_connections%’;<br>set global max_connections = 1000;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/06/mysql%E7%AC%94%E8%AE%B0/" data-id="ckd7biyoc000kmf8ncam25s94" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/07/09/python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          python学习笔记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/06/29/%E6%B8%B8%E6%88%8F%E6%88%90%E5%B0%B1%E4%BB%BB%E5%8A%A1%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">游戏成就任务系统设计</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85/">开发环境安装</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%BC%80%E5%8F%91%E8%AF%AD%E8%A8%80/">开发语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%A1%86%E6%9E%B6/">服务端框架</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%84%9A%E6%9C%AC%E5%B7%A5%E5%85%B7/">脚本工具</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Capistrano-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7/" rel="tag">Capistrano 自动部署工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Erlang/" rel="tag">Erlang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Ruby-on-Rails/" rel="tag">Ruby on Rails</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Sentry/" rel="tag">Sentry</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="tag">c++ 设计模式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mongodb/" rel="tag">mongodb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/node-js/" rel="tag">node.js</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/td-agent/" rel="tag">td-agent</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%B8%B8%E6%88%8F/" rel="tag">游戏</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Capistrano-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E5%B7%A5%E5%85%B7/" style="font-size: 10px;">Capistrano 自动部署工具</a> <a href="/tags/Erlang/" style="font-size: 13.33px;">Erlang</a> <a href="/tags/Ruby-on-Rails/" style="font-size: 10px;">Ruby on Rails</a> <a href="/tags/Sentry/" style="font-size: 10px;">Sentry</a> <a href="/tags/c-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" style="font-size: 10px;">c++ 设计模式</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/mongodb/" style="font-size: 10px;">mongodb</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/node-js/" style="font-size: 16.67px;">node.js</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/td-agent/" style="font-size: 10px;">td-agent</a> <a href="/tags/%E6%B8%B8%E6%88%8F/" style="font-size: 20px;">游戏</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">August 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/07/28/mongodb%E7%AC%94%E8%AE%B0/">mongodb笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/14/node%E4%B8%AD%E9%97%B4%E4%BB%B6/">node中间件</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/09/python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">python学习笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/06/mysql%E7%AC%94%E8%AE%B0/">mysql笔记</a>
+          </li>
+        
+          <li>
+            <a href="/2020/06/29/%E6%B8%B8%E6%88%8F%E6%88%90%E5%B0%B1%E4%BB%BB%E5%8A%A1%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">游戏成就任务系统设计</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
